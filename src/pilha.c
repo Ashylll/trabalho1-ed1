@@ -1,6 +1,7 @@
 #include "pilha.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct elemento{
     void *chave;
@@ -9,35 +10,43 @@ typedef struct elemento{
 
 typedef ELEMENTO *PONT;
 
-struct pilha{
+typedef struct stPilha{
     PONT topo;
-};
+} stPilha;
 
-pilha criar_pilha(void){
-    pilha p = (pilha) malloc(sizeof(struct pilha));
+PILHA criar_pilha(void){
+    stPilha *p = (stPilha*) malloc(sizeof(stPilha));
     if (p != NULL) p->topo = NULL;
-    return p; 
+    return (PILHA)p; 
 }
 
-bool empty_pilha(pilha p){
-    return (p->topo == NULL);
+bool empty_pilha(PILHA p){
+    if (!p) return true;
+    stPilha *pilha = (stPilha*)p;
+    return (pilha->topo == NULL);
 }
 
-bool push_pilha(pilha p, void *item){
+bool push_pilha(PILHA p, void *item){
     if (!p) return false;
+    
+    stPilha *pilha = (stPilha*)p;
     PONT novo = (PONT) malloc(sizeof(ELEMENTO));
     if (!novo) return false;
     novo->chave = item;
-    novo->prox = p->topo;
-    p->topo = novo;
+    novo->prox = pilha->topo;
+    pilha->topo = novo;
     return true;
 }
 
-bool pop_pilha(pilha p, void **out_item){
-    if (!p || !p->topo) return false;
-    PONT apagar = p->topo;
+bool pop_pilha(PILHA p, void **out_item){
+    if (!p || !out_item) return false;
+
+    stPilha *pilha = (stPilha*)p;
+    if (!pilha->topo) return false;
+    
+    PONT apagar = pilha->topo;
     *out_item = apagar->chave;
-    p->topo = p->topo->prox;
+    pilha->topo = apagar->prox;
     free(apagar);
     return true;
 }
