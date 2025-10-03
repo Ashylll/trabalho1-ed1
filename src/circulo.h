@@ -21,7 +21,7 @@ typedef void* CIRCULO;
 /// @param corb cor da borda (string)
 /// @param corp cor de preenchimento (string)
 /// @return retorna ponteiro para o círculo
-CIRCULO criar_circulo(int i, double x, double y, double r, char* corb, char* corp);
+CIRCULO criar_circulo(int i, double x, double y, double r, const char* corb, const char* corp);
 
 
 /* Funções get */
@@ -86,12 +86,12 @@ bool setR_circulo(CIRCULO c, double r);
 /// @param c círculo
 /// @param corb cor de borda 
 /// @return true se a operação foi bem sucedida, false se não
-bool setCORB_circulo(CIRCULO c, char* corb);
+bool setCORB_circulo(CIRCULO c, const char* corb);
 
 /// @brief atribui uma cor de preenchimento ao círculo
 /// @param c círculo
 /// @param corb cor de preenchimento
 /// @return true se a operação foi bem sucedida, false se não
-bool setCORP_circulo(CIRCULO c, char* corp);
+bool setCORP_circulo(CIRCULO c, const char* corp);
 
 #endif
