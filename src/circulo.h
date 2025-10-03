@@ -13,7 +13,7 @@ typedef void* CIRCULO;
 
 */
 
-/// @brief cria um circulo com identificador, cor de borda e de preenchimento e coordenas
+/// @brief cria um círculo com identificador, cor de borda e de preenchimento e coordenas
 /// @param i identificador numérico do círculo
 /// @param x coordenada do eixo x
 /// @param y coordenada do eixo y
