@@ -9,14 +9,14 @@ typedef void* TEXTO;
 
 /*
     texto.h
-    Módulo responsável pela criação de textos
+    Módulo responsável pela criação e estilização de textos
     Inclui funções com operações get e set
 
 */
 
 
 
-/// @brief cria um texto com identificador, coordenadas e cores de borda e de preenchimento 
+/// @brief cria um texto com identificador, coordenadas, cores de borda e de preenchimento e estilo padrão 
 /// @param i identificador 'i'
 /// @param x coordenada x
 /// @param y coordenada y
@@ -109,5 +109,18 @@ bool setA_texto(TEXTO t, char a);
 /// @param txto conteúdo do texto (string)
 /// @return true se a operação foi bem sucedida, false se não
 bool setTXTO_texto(TEXTO t, char* txto);
+
+
+// Função estilo
+
+/// @brief muda o estilo de um texto
+/// @param t texto t
+/// @param fFamily família do estilo (sans, serif, cursive)
+/// @param fWeight peso do estilo (n: normal, b: bold, b+: bolder, l: lighter)
+/// @param fSize tamanho do estilo
+/// @return true se a operação foi bem sucedida, false se não
+bool mudar_estilo(TEXTO t, char* fFamily, char fWeight, int fSize);
+
+
 
 #endif

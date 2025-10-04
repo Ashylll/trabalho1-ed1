@@ -1,19 +1,31 @@
 #include "texto.h"
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+
+#define FFAMILY_PADRAO "sans"
+#define FWEIGHT_PADRAO 'n'
+#define FSIZE_PADRAO 12
+
+typedef struct stEstilo{
+    char* fFamily;
+    char fWeight;
+    int fSize;
+} stEstilo;
 
 typedef struct stTexto{
     int i;
     double x, y;
     char *corb, *corp, a, *txto;
+
+    stEstilo estilo;
 } stTexto;
 
 TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp, char a, const char* txto){
-    stTexto *t = malloc(sizeof(stTexto));
+    stTexto *t = malloc(sizeof(*t));
     if (!t) {
         fprintf(stderr, "Erro na alocação de memória");
-        free(t);
         exit(1);
     }
     
@@ -22,9 +34,22 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
     t->y = y;
     t->a = a;
 
+    t->estilo.fFamily = malloc(strlen(FFAMILY_PADRAO)+1);
+     if (!t->estilo.fFamily) {
+        fprintf(stderr, "Erro na alocação de memória");
+        free(t);
+        exit(1);
+    }
+    strcpy(t->estilo.fFamily, FFAMILY_PADRAO);
+
+    t->estilo.fWeight = FWEIGHT_PADRAO;
+    t->estilo.fSize = FSIZE_PADRAO;
+
+
     t->corb = malloc(strlen(corb)+1);
     if (!t->corb){
         fprintf(stderr, "Erro na alocação de memória");
+        free(t->estilo.fFamily);
         free(t);
         exit(1);    
     }
@@ -34,6 +59,7 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
     if (!t->corp){
         fprintf(stderr, "Erro na alocação de memória");
         free(t->corb);
+        free(t->estilo.fFamily);
         free(t);
         exit(1);    
     }
@@ -42,8 +68,9 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
     t->txto = malloc(strlen(txto)+1);
     if (!t->txto){
         fprintf(stderr, "Erro na alocação de memória");
-        free(t->corb);
         free(t->corp);
+        free(t->corb);
+        free(t->estilo.fFamily);
         free(t);
         exit(1);    
     }
@@ -168,6 +195,28 @@ bool setTXTO_texto(TEXTO t, char *txto){
 
     stTexto *texto = (stTexto*)t;
     texto->txto = txto;
+
+    return true;
+}
+
+// Função estilo
+
+bool mudar_estilo(TEXTO t, char *fFamily, char fWeight, int fSize){
+    if (!t) return false;
+
+    stTexto *texto = (stTexto*)t;
+
+    char *novaFamily = malloc(strlen(fFamily) + 1);
+    if (!novaFamily) {
+        fprintf(stderr, "Erro na alocação de memória\n");
+        return false;
+    }
+    strcpy(novaFamily, fFamily);
+    free(texto->estilo.fFamily);
+
+    texto->estilo.fFamily = novaFamily;
+    texto->estilo.fWeight = fWeight;
+    texto->estilo.fSize = fSize;
 
     return true;
 }
