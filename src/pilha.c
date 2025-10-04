@@ -15,7 +15,7 @@ typedef struct stPilha{
 } stPilha;
 
 PILHA criar_pilha(void){
-    stPilha *p = (stPilha*) malloc(sizeof(stPilha));
+    stPilha *p = malloc(sizeof(stPilha));
     if (p != NULL) p->topo = NULL;
     return (PILHA)p; 
 }
@@ -30,7 +30,7 @@ bool push_pilha(PILHA p, void *item){
     if (!p) return false;
     
     stPilha *pilha = (stPilha*)p;
-    PONT novo = (PONT) malloc(sizeof(ELEMENTO));
+    PONT novo = malloc(sizeof(ELEMENTO));
     if (!novo) return false;
     novo->chave = item;
     novo->prox = pilha->topo;
