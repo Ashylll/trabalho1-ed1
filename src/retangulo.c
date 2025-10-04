@@ -14,7 +14,6 @@ RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const c
     stRetangulo *r = malloc(sizeof(stRetangulo));
     if (!r) {
         fprintf(stderr, "Erro na alocação de memória");
-        free(r);
         exit(1);
     }
 
