@@ -17,12 +17,14 @@ typedef struct stPilha{
 PILHA criar_pilha(void){
     stPilha *p = malloc(sizeof(stPilha));
     if (p != NULL) p->topo = NULL;
+
     return (PILHA)p; 
 }
 
 bool empty_pilha(PILHA p){
     if (!p) return true;
     stPilha *pilha = (stPilha*)p;
+
     return (pilha->topo == NULL);
 }
 
@@ -32,9 +34,11 @@ bool push_pilha(PILHA p, void *item){
     stPilha *pilha = (stPilha*)p;
     PONT novo = malloc(sizeof(ELEMENTO));
     if (!novo) return false;
+    
     novo->chave = item;
     novo->prox = pilha->topo;
     pilha->topo = novo;
+
     return true;
 }
 
@@ -48,5 +52,6 @@ bool pop_pilha(PILHA p, void **out_item){
     *out_item = apagar->chave;
     pilha->topo = apagar->prox;
     free(apagar);
+    
     return true;
 }
