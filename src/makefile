@@ -1,26 +1,17 @@
-# Compilador
-CC = gcc
+PROJ_NAME=ted
+CC=gcc
 
-# Flags de compilação
-CFLAGS = -std=c99 -Wall -Wextra -fstack-protector-all
+CFLAGS= -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration -Wall -Wextra
+LDFLAGS= -O0
 
-# Pega automaticamente todos os .c da pasta src/
-SRC = $(wildcard src/*.c)
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
 
-# Converte .c em .o
-OBJ = $(SRC:.c=.o)
+ted: $(OBJ)
+	$(CC) -o $(PROJ_NAME) $(LDFLAGS) $(OBJ)
 
-# Nome do executável (vai ficar dentro de src/)
-TARGET = src/ted
+%.o: %.c
+	$(CC) -c $(CFLAGS) $< -o $@
 
-# Regra padrão (executável)
-$(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET)
-
-# Regra para compilar cada .c em .o
-src/%.o: src/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Limpar (remove objetos e executável)
 clean:
-	rm -f src/*.o $(TARGET)
+	rm -f *.o $(PROJ_NAME)
