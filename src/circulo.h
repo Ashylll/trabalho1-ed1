@@ -8,7 +8,7 @@ typedef void* CIRCULO;
 
 /*
     circulo.h
-    Módulo responsável pela criação de círculos
+    Módulo responsável pela criação de círculos e funções relacionadas
     Inclui funções com operações get e set
 
 */
@@ -23,6 +23,10 @@ typedef void* CIRCULO;
 /// @return retorna ponteiro para o círculo
 CIRCULO criar_circulo(int i, double x, double y, double r, const char* corb, const char* corp);
 
+/// @brief retorna a área do círculo    
+/// @param c círculo
+/// @return área
+double area_circulo(CIRCULO c);
 
 /* Funções get */
 

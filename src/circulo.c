@@ -4,6 +4,8 @@
 #include <string.h>
 #include <stdbool.h>
 
+#define PI 3.14
+
 typedef struct stCirculo{
     int i;
     double x, y, r;
@@ -40,6 +42,14 @@ CIRCULO criar_circulo(int i, double x, double y, double r, const char *corb, con
     strcpy(c->corp, corp);
 
     return (CIRCULO)c;
+}
+
+double area_circulo(CIRCULO c){
+    stCirculo *circulo = (stCirculo*)c;
+
+    double area = PI * circulo->r * circulo->r;
+    
+    return area;
 }
 
 // Funções get
