@@ -9,7 +9,7 @@ typedef void* RETANGULO;
 /*
     retangulo.h
     Módulo responsável pela criação de retangulos
-    Inclui funções com operações get e set
+    Inclui funções com operações relacionadas
 
 */
 

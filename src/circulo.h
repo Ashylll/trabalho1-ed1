@@ -8,8 +8,8 @@ typedef void* CIRCULO;
 
 /*
     circulo.h
-    Módulo responsável pela criação de círculos e funções relacionadas
-    Inclui funções com operações get e set
+    Módulo responsável pela criação de círculos
+    Inclui funções com operações relacionadas 
 
 */
 

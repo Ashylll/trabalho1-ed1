@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <math.h>
 
 typedef struct stLinha {
     int i;
@@ -32,6 +33,22 @@ LINHA criar_linha(int i, double x1, double y1, double x2, double y2, const char*
     strcpy(l->cor, cor);
 
     return (LINHA)l;
+}
+
+double comprimento_linha(LINHA l){
+    stLinha *linha = (stLinha*)l;
+
+    double deltaX = linha->x2 - linha->x1;
+    double deltaY = linha->y2 - linha->y1;
+    double comprimento = sqrt(deltaX*deltaX + deltaY*deltaY);
+
+    return comprimento;
+}
+
+double area_linha(LINHA l){
+    double area = 2 * comprimento_linha(l);
+
+    return area;
 }
 
 // Funções get

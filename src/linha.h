@@ -25,6 +25,15 @@ typedef void* LINHA;
 /// @return retorna ponteiro para a linha
 LINHA criar_linha(int i, double x1, double y1, double x2, double y2, const char* cor);
 
+/// @brief calcula o comprimento da linha
+/// @param l linha
+/// @return comprimento da linha
+double comprimento_linha(LINHA l);
+
+/// @brief calcula a área da linha
+/// @param l linha
+/// @return área da linha
+double area_linha(LINHA l);
 
 /* Funções get */
 
