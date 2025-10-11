@@ -43,6 +43,13 @@ RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const c
     return (RETANGULO)r;
 }
 
+double area_retangulo(RETANGULO r){
+    stRetangulo *retangulo = (stRetangulo*)r;
+
+     double area = retangulo->w * retangulo->h;
+
+     return area;
+} 
 
 // Funções get
 

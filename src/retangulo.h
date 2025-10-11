@@ -24,6 +24,11 @@ typedef void* RETANGULO;
 /// @return retorna ponteiro para o retângulo
 RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const char* corb, const char* corp);
 
+/// @brief retorna a área do retângulo    
+/// @param r retângulo
+/// @return área
+double area_retangulo(RETANGULO r);
+
 /* Funções get */
 
 /// @brief retorna o identificador do retângulo
