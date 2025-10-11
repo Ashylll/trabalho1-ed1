@@ -30,6 +30,16 @@ bool push_pilha(PILHA p, void *item);
 /// @return true se a operação foi bem sucedida, false se não
 bool pop_pilha(PILHA p, void **out_item);
 
+/// @brief consulta o topo da pilha
+/// @param p pilha p
+/// @param out_item ponteiro para o item no topo da pilha
+/// @return true se a operação foi bem sucedida, false se não
+bool peek_pilha(PILHA p, void **out_item);
+
+/// @brief apaga a pilha 
+/// @param p pilha p
+void destruir_pilha(PILHA *p);
+
 #endif
 
 

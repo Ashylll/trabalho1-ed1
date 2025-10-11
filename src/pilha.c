@@ -55,3 +55,29 @@ bool pop_pilha(PILHA p, void **out_item){
     
     return true;
 }
+
+bool peek_pilha(PILHA p, void **out_item){
+    if (!p || !out_item) return false;
+
+    stPilha *pilha = (stPilha*)p;
+    if (!pilha->topo) return false;
+
+    *out_item = pilha->topo->chave;
+
+    return true;
+}
+
+void destruir_pilha(PILHA *p){
+    if (!p || !*p) return;
+
+    stPilha *pilha = (stPilha*)*p;
+
+    PONT atual = pilha->topo;
+    while (atual) {
+        PONT apagar = atual;
+        atual = atual->prox;
+        free(apagar);
+    }
+    free(pilha);
+    *p = NULL;
+}
