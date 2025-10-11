@@ -10,7 +10,7 @@ typedef void* TEXTO;
 /*
     texto.h
     Módulo responsável pela criação e estilização de textos
-    Inclui funções com operações get e set
+    Inclui funções com operações relacionadas 
 
 */
 
@@ -26,6 +26,12 @@ typedef void* TEXTO;
 /// @param txto conteúdo do texto a ser criado
 /// @return ponteiro para o texto criado
 TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp, char a, const char* txto);
+
+
+/// @brief calcula a área do texto
+/// @param t texto
+/// @return área do texto
+double area_texto(TEXTO t);
 
 // Funções get 
 

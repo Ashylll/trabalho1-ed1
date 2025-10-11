@@ -7,6 +7,7 @@
 #define FFAMILY_PADRAO "sans"
 #define FWEIGHT_PADRAO 'n'
 #define FSIZE_PADRAO 12
+#define CONST_AREA 20
 
 typedef struct stEstilo{
     char* fFamily;
@@ -78,6 +79,18 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
 
     return (TEXTO)t;
 
+}
+
+double area_texto(TEXTO t){
+    stTexto *texto = (stTexto*)t;
+
+    if (texto == NULL || texto->txto == NULL) {
+        fprintf(stderr, "Erro: texto inválido");
+        exit(1);
+    }
+    double area = CONST_AREA * (strlen(texto->txto));
+
+    return area;
 }
 
 // Funções get
