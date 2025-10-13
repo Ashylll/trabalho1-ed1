@@ -72,3 +72,29 @@ bool rmv_fila(FILA f, void **item){
 
     return true;
 }
+
+bool peek_fila(FILA f, void **out_item){
+    if (!f || !out_item) return false;
+
+    stFila *fila = (stFila*)f;
+    if(fila->inicio == NULL) return false;
+
+    *out_item = fila->inicio->chave;
+
+    return true;
+}
+
+void destruir_fila(FILA *f){
+    if (!f || !*f) return;
+
+    stFila *fila = (stFila*)*f;
+
+    PONT atual = fila->inicio;
+    while(atual){
+        PONT apagar = atual;
+        atual = atual->prox;
+        free(apagar);
+    } 
+    free(fila);
+    *f = NULL;
+}
