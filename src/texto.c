@@ -7,7 +7,7 @@
 #define FFAMILY_PADRAO "sans"
 #define FWEIGHT_PADRAO 'n'
 #define FSIZE_PADRAO 12
-#define CONST_AREA 20
+#define CONST_AREA 20.0
 
 typedef struct stEstilo{
     char* fFamily;
@@ -24,71 +24,81 @@ typedef struct stTexto{
 } stTexto;
 
 TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp, char a, const char* txto){
-    stTexto *t = malloc(sizeof(*t));
-    if (!t) {
-        fprintf(stderr, "Erro na alocação de memória");
-        exit(1);
+    if (!corb || !corp || !txto) {
+        fprintf(stderr, "Cores/texto inválidos\n");
+        return NULL;
+    }
+
+    if (a != 'i' && a != 'm' && a != 'f') {
+        fprintf(stderr, "Parâmetro 'a' inválido\n");
+        return NULL;
     }
     
-    t->i = i;
-    t->x = x;
-    t->y = y;
-    t->a = a;
-
-    t->estilo.fFamily = malloc(strlen(FFAMILY_PADRAO)+1);
-     if (!t->estilo.fFamily) {
-        fprintf(stderr, "Erro na alocação de memória");
-        free(t);
-        exit(1);
+    stTexto *texto = malloc(sizeof(*texto));
+    if (!texto) {
+        fprintf(stderr, "Erro na alocação de memória\n");
+        return NULL;
     }
-    strcpy(t->estilo.fFamily, FFAMILY_PADRAO);
+    
+    texto->i = i;
+    texto->x = x;
+    texto->y = y;
+    texto->a = a;
 
-    t->estilo.fWeight = FWEIGHT_PADRAO;
-    t->estilo.fSize = FSIZE_PADRAO;
-
-
-    t->corb = malloc(strlen(corb)+1);
-    if (!t->corb){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(t->estilo.fFamily);
-        free(t);
-        exit(1);    
+    texto->estilo.fFamily = malloc(strlen(FFAMILY_PADRAO)+1);
+     if (!texto->estilo.fFamily) {
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(texto);
+        return NULL;
     }
-    strcpy(t->corb, corb);
+    strcpy(texto->estilo.fFamily, FFAMILY_PADRAO);
 
-    t->corp = malloc(strlen(corp)+1);
-    if (!t->corp){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(t->corb);
-        free(t->estilo.fFamily);
-        free(t);
-        exit(1);    
+    texto->estilo.fWeight = FWEIGHT_PADRAO;
+    texto->estilo.fSize = FSIZE_PADRAO;
+
+
+    texto->corb = malloc(strlen(corb)+1);
+    if (!texto->corb){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(texto->estilo.fFamily);
+        free(texto);
+        return NULL;    
     }
-    strcpy(t->corp, corp);
+    strcpy(texto->corb, corb);
 
-    t->txto = malloc(strlen(txto)+1);
-    if (!t->txto){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(t->corp);
-        free(t->corb);
-        free(t->estilo.fFamily);
-        free(t);
-        exit(1);    
+    texto->corp = malloc(strlen(corp)+1);
+    if (!texto->corp){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(texto->corb);
+        free(texto->estilo.fFamily);
+        free(texto);
+        return NULL;    
     }
-    strcpy(t->txto, txto);
+    strcpy(texto->corp, corp);
 
-    return (TEXTO)t;
+    texto->txto = malloc(strlen(txto)+1);
+    if (!texto->txto){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(texto->corp);
+        free(texto->corb);
+        free(texto->estilo.fFamily);
+        free(texto);
+        return NULL;    
+    }
+    strcpy(texto->txto, txto);
+
+    return texto;
 
 }
 
 double area_texto(TEXTO t){
+    if(!t) return 0.0;
+
     stTexto *texto = (stTexto*)t;
 
-    if (texto == NULL || texto->txto == NULL) {
-        fprintf(stderr, "Erro: texto inválido");
-        exit(1);
-    }
-    double area = CONST_AREA * (strlen(texto->txto));
+    if (!texto->txto) return 0.0;
+
+    double area = CONST_AREA * (double)(strlen(texto->txto));
 
     return area;
 }

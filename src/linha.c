@@ -12,27 +12,32 @@ typedef struct stLinha {
 } stLinha;
 
 LINHA criar_linha(int i, double x1, double y1, double x2, double y2, const char* cor){
-    stLinha *l = malloc(sizeof(stLinha));
-   if (!l){
-    fprintf(stderr, "Erro na alocação de memória");
-    exit(1);
+    if (!cor) {
+        fprintf(stderr, "Cor inválida\n");
+        return NULL;
+    }
+
+    stLinha *linha = malloc(sizeof(*linha));
+    if (!linha){
+    fprintf(stderr, "Erro na alocação de memória\n");
+    return NULL;
    }
 
-    l->i = i;
-    l->x1 = x1;
-    l->y1 = y1;
-    l->x2 = x2;
-    l->y2 = y2;
+    linha->i = i;
+    linha->x1 = x1;
+    linha->y1 = y1;
+    linha->x2 = x2;
+    linha->y2 = y2;
 
-    l->cor = malloc(strlen(cor)+1);
-    if (l->cor == NULL){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(l);
-        exit(1);
+    linha->cor = malloc(strlen(cor)+1);
+    if (linha->cor == NULL){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(linha);
+        return NULL;
     }
-    strcpy(l->cor, cor);
+    strcpy(linha->cor, cor);
 
-    return (LINHA)l;
+    return linha;
 }
 
 double comprimento_linha(LINHA l){

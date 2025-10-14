@@ -16,16 +16,16 @@ typedef struct stFila {
 } stFila;
 
 FILA criar_fila (void){
-    stFila *f = malloc(sizeof(stFila));
-    if (!f){
-        fprintf(stderr, "Erro na alocação de memória");
-        exit(1);
+    stFila *fila = malloc(sizeof(*fila));
+    if (!fila){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        return NULL;
     }
 
-    f->inicio = NULL;
-    f->fim = NULL;
+    fila->inicio = NULL;
+    fila->fim = NULL;
 
-    return (FILA)f;
+    return fila;
 }
 
 bool empty_fila(FILA f){

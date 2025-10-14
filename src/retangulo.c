@@ -11,36 +11,46 @@ typedef struct stRetangulo {
 } stRetangulo;
 
 RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const char* corb, const char* corp){
-    stRetangulo *r = malloc(sizeof(stRetangulo));
-    if (!r) {
-        fprintf(stderr, "Erro na alocação de memória");
-        exit(1);
+    if (!corb || !corp) {
+        fprintf(stderr, "Cores inválidas\n");
+        return NULL;
     }
 
-    r->i = i;
-    r->x = x;
-    r->y = y;
-    r->w = w;
-    r->h = h;
-
-    r->corb = malloc(strlen(corb)+1);
-    if (!corb){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(r);
-        exit(1);
+    if (w < 0 || h < 0) {
+        fprintf(stderr, "Dimensões inválidas\n");
+        return NULL;
     }
-    strcpy(r->corb, corb);
-
-    r->corp = malloc(strlen(corp)+1);
-    if (!corp){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(r->corb);
-        free(r);
-        exit(1);
+ 
+    stRetangulo *retangulo = malloc(sizeof(*retangulo));
+    if (!retangulo) {
+        fprintf(stderr, "Erro na alocação de memória\n");
+        return NULL;
     }
-    strcpy(r->corp, corp);
 
-    return (RETANGULO)r;
+    retangulo->i = i;
+    retangulo->x = x;
+    retangulo->y = y;
+    retangulo->w = w;
+    retangulo->h = h;
+
+    retangulo->corb = malloc(strlen(corb)+1);
+    if (!retangulo->corb){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(retangulo);
+        return NULL;
+    }
+    strcpy(retangulo->corb, corb);
+
+    retangulo->corp = malloc(strlen(corp)+1);
+    if (!retangulo->corp){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(retangulo->corb);
+        free(retangulo);
+        return NULL;
+    }
+    strcpy(retangulo->corp, corp);
+
+    return retangulo;
 }
 
 double area_retangulo(RETANGULO r){

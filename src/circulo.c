@@ -13,35 +13,39 @@ typedef struct stCirculo{
 } stCirculo;
 
 CIRCULO criar_circulo(int i, double x, double y, double r, const char *corb, const char *corp){
-    stCirculo *c = malloc(sizeof(stCirculo));
-   if (!c){
-    fprintf(stderr, "Erro na alocação de memória");
-    exit(1);
+    if(!corb || !corp){
+        fprintf(stderr, "Cores inválidas\n");
+        return NULL;
+    }
+    stCirculo *circulo = malloc(sizeof(*circulo));
+   if (!circulo){
+    fprintf(stderr, "Erro na alocação de memória\n");
+    return NULL;
    }
 
-    c->i = i;
-    c->x = x;
-    c->y = y;
-    c->r = r;
+    circulo->i = i;
+    circulo->x = x;
+    circulo->y = y;
+    circulo->r = r;
     
-    c->corb = malloc(strlen(corb)+1);
-    if (c->corb == NULL){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(c);
-        exit(1);
+    circulo->corb = malloc(strlen(corb)+1);
+    if (circulo->corb == NULL){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(circulo);
+        return NULL;
     }
-    strcpy(c->corb, corb);
+    strcpy(circulo->corb, corb);
 
-     c->corp = malloc(strlen(corp)+1);
-    if (c->corp == NULL){
-        fprintf(stderr, "Erro na alocação de memória");
-        free(c->corb);
-        free(c);
-        exit(1);
+     circulo->corp = malloc(strlen(corp)+1);
+    if (circulo->corp == NULL){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(circulo->corb);
+        free(circulo);
+        return NULL;
     }
-    strcpy(c->corp, corp);
+    strcpy(circulo->corp, corp);
 
-    return (CIRCULO)c;
+    return circulo;
 }
 
 double area_circulo(CIRCULO c){
