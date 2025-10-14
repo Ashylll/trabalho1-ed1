@@ -1,7 +1,6 @@
 #ifndef CIRCULO_H
 #define CIRCULO_H
-#include <stdio.h>
-#include <stdlib.h>
+
 #include <stdbool.h>
 
 typedef void* CIRCULO;

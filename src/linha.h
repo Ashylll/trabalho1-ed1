@@ -1,8 +1,6 @@
 #ifndef LINHA_H
 #define LINHA_H
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
 
 typedef void* LINHA;
