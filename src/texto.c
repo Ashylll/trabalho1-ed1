@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 
 #define FFAMILY_PADRAO "sans"
 #define FWEIGHT_PADRAO 'n'
@@ -10,8 +11,8 @@
 #define CONST_AREA 20.0
 
 typedef struct stEstilo{
-    char* fFamily;
-    char fWeight;
+    char *fFamily;
+    char *fWeight;
     int fSize;
 } stEstilo;
 
@@ -92,7 +93,7 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
 }
 
 double area_texto(TEXTO t){
-    if(!t) return 0.0;
+    assert (t != NULL);
 
     stTexto *texto = (stTexto*)t;
 
@@ -103,9 +104,24 @@ double area_texto(TEXTO t){
     return area;
 }
 
+void destruir_texto(TEXTO *t){
+    if (!t || !*t) return;
+    stTexto *texto = (stTexto*)*t;
+
+    free(texto->estilo.fFamily);
+    free(texto->corb);
+    free(texto->corp);
+    free(texto->txto);
+
+    free(texto);
+    
+    *t = NULL;
+}
+
 // Funções get
 
 int getI_texto(TEXTO t){
+    assert (t != NULL);
     stTexto *texto = (stTexto*)t;
 
     return texto->i;
@@ -115,6 +131,7 @@ int getI_texto(TEXTO t){
 
 
 double getX_texto(TEXTO t){
+    assert (t != NULL);
     stTexto *texto = (stTexto*)t;
 
     return texto->x;
@@ -123,6 +140,7 @@ double getX_texto(TEXTO t){
 
 
 double getY_texto(TEXTO t){
+    assert (t != NULL);
     stTexto *texto = (stTexto*)t;
 
     return texto->y;
@@ -130,14 +148,16 @@ double getY_texto(TEXTO t){
 }
 
 
-char* getCORB_texto(TEXTO t){
+const char* getCORB_texto(TEXTO t){
+    assert (t != NULL);
     stTexto *texto = (stTexto*)t;
 
     return texto->corb;
 }
 
 
-char* getCORP_texto(TEXTO t){
+const char* getCORP_texto(TEXTO t){
+    assert (t != NULL);
     stTexto *texto = (stTexto*)t;
 
     return texto->corp;
@@ -145,13 +165,15 @@ char* getCORP_texto(TEXTO t){
 
 
 char getA_texto(TEXTO t){
+    assert (t != NULL);
     stTexto *texto = (stTexto*)t;
 
     return texto->a;
 }
 
 
-char* getTXTO_texto(TEXTO t){
+const char* getTXTO_texto(TEXTO t){
+    assert (t != NULL);
     stTexto *texto = (stTexto*)t;
 
     return texto->txto;
@@ -186,26 +208,43 @@ bool setY_texto(TEXTO t, double y){
     return true;
 }
 
-bool setCORB_texto(TEXTO t, char *corb){
-    if (!t) return false;
+bool setCORB_texto(TEXTO t, const char *corb){
+    if (!t || !corb) return false;
 
     stTexto *texto = (stTexto*)t;
-    texto->corb = corb;
+
+    if (texto->corb && strcmp(texto->corb, corb) == 0) return true;
+
+    char *novo = malloc(strlen(corb)+1);
+    if (!novo) return false;
+
+    strcpy(novo, corb);
+    free(texto->corb);
+    texto->corb = novo;
 
     return true;
 }
 
-bool setCORP_texto(TEXTO t, char *corp){
-    if (!t) return false;
+bool setCORP_texto(TEXTO t, const char *corp){
+    if (!t || !corp) return false;
 
     stTexto *texto = (stTexto*)t;
-    texto->corp = corp;
+    
+    if (texto->corp && strcmp(texto->corp, corp) == 0) return true;
+
+    char *novo = malloc(strlen(corp)+1);
+    if (!novo) return false;
+
+    strcpy(novo, corp);
+    free(texto->corp);
+    texto->corp = novo;
 
     return true;
 }
 
 bool setA_texto(TEXTO t, char a){
     if (!t) return false;
+    if (a != 'i' && a != 'm' && a != 'f') return false;
 
     stTexto *texto = (stTexto*)t;
     texto->a = a;
@@ -213,32 +252,59 @@ bool setA_texto(TEXTO t, char a){
     return true;
 }
 
-bool setTXTO_texto(TEXTO t, char *txto){
-    if (!t) return false;
+bool setTXTO_texto(TEXTO t, const char *txto){
+    if (!t || !txto) return false;
 
     stTexto *texto = (stTexto*)t;
-    texto->txto = txto;
+
+    if (texto->txto && strcmp(texto->txto, txto) == 0) return true;
+
+    char *novo = malloc(strlen(txto)+1);
+    if (!novo) return false;
+
+    strcpy(novo, txto);
+    free(texto->txto);
+    texto->txto = novo;
 
     return true;
 }
 
 // Função estilo
 
-bool mudar_estilo(TEXTO t, char *fFamily, char fWeight, int fSize){
-    if (!t) return false;
+bool mudar_estilo(TEXTO t, const char *fFamily, const char *fWeight, int fSize){
+    if (!t || !fFamily || !fWeight || fSize <= 0) return false;
+    if(strcmp(fWeight, "n") && strcmp(fWeight, "b") && strcmp(fWeight, "b+") && strcmp(fWeight, "l")) return false;
 
     stTexto *texto = (stTexto*)t;
+
+    if (texto->estilo.fFamily && texto->estilo.fWeight &&
+        strcmp(texto->estilo.fFamily, fFamily) == 0 &&
+        strcmp(texto->estilo.fWeight, fWeight) == 0 &&
+        texto->estilo.fSize == fSize) {
+        return true;
+    }
 
     char *novaFamily = malloc(strlen(fFamily) + 1);
     if (!novaFamily) {
         fprintf(stderr, "Erro na alocação de memória\n");
         return false;
     }
+
+    char *novoWeight = malloc(strlen(fWeight) + 1);
+    if (!novoWeight) {
+        free(novaFamily);
+        fprintf(stderr, "Erro na alocação de memória\n");
+        return false;
+    }
+
     strcpy(novaFamily, fFamily);
     free(texto->estilo.fFamily);
 
+    strcpy(novoWeight, fWeight);
+    free(texto->estilo.fWeight);
+
     texto->estilo.fFamily = novaFamily;
-    texto->estilo.fWeight = fWeight;
+    texto->estilo.fWeight = novoWeight;
     texto->estilo.fSize = fSize;
 
     return true;

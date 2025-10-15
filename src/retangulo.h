@@ -29,6 +29,7 @@ RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const c
 
 /// @brief retorna a área do retângulo    
 /// @param r retângulo
+/// @pre r != NULL
 /// @return área
 double area_retangulo(RETANGULO r);
 
@@ -85,43 +86,43 @@ const char* getCORP_retangulo(RETANGULO r);
 /// @brief atribui um identificador ao retângulo
 /// @param r retângulo
 /// @param i identificador 'i'
-/// @return true se atualizou; false se r == NULL
+/// @return true se a operação foi bem sucedida; false se r == NULL
 bool setI_retangulo(RETANGULO r, int i);
 
 /// @brief atribui uma coordenada x à âncora do retângulo
 /// @param r retângulo
 /// @param x coordenada x
-/// @return true se atualizou; false se r == NULL
+/// @return true se a operação foi bem sucedida; false se r == NULL
 bool setX_retangulo(RETANGULO r, double x);
 
 /// @brief atribui uma coordenada y à âncora do retângulo
 /// @param r retângulo
 /// @param y coordenada y
-/// @return true se atualizou; false se r == NULL
+/// @return true se a operação foi bem sucedida; false se r == NULL
 bool setY_retangulo(RETANGULO r, double y);
 
 /// @brief atribui uma largura ao retângulo
 /// @param r retângulo
 /// @param w largura > 0
-/// @return true se atualizou; false se r == NULL || w <= 0
+/// @return true se a operação foi bem sucedida; false se r == NULL || w <= 0
 bool setW_retangulo(RETANGULO r, double w);
 
 /// @brief atribui uma altura ao retângulo
 /// @param r retângulo
 /// @param h altura > 0
-/// @return true se atualizou; false se r == NULL || h <= 0
+/// @return true se a operação foi bem sucedida; false se r == NULL || h <= 0
 bool setH_retangulo(RETANGULO r, double h);
 
 /// @brief atribui uma cor de borda ao retângulo
 /// @param r retângulo
 /// @param corb cor de borda 
-/// @return true se atualizou; false se r == NULL || corb == NULL
+/// @return true se a operação foi bem sucedida; false se r == NULL || corb == NULL
 bool setCORB_retangulo(RETANGULO r, const char* corb);
 
 /// @brief atribui uma cor de preenchimento ao retângulo
 /// @param r retângulo
 /// @param corp cor de preenchimento
-/// @return true se atualizou; false se r == NULL || corp == NULL
+/// @return true se a operação foi bem sucedida; false se r == NULL || corp == NULL
 bool setCORP_retangulo(RETANGULO r, const char* corp);
 
 #endif

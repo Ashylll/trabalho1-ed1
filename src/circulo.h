@@ -78,37 +78,37 @@ const char* getCORP_circulo(CIRCULO c);
 /// @brief atribui um identificador ao círculo
 /// @param c círculo
 /// @param i identificador
-/// @return true se atualizou; false se c == NULL
+/// @return true se a operação foi bem sucedida; false se c == NULL
 bool setI_circulo(CIRCULO c, int i);
 
 /// @brief atribui uma coordenada x ao círculo
 /// @param c círculo
 /// @param x coordenada x
-/// @return true se atualizou; false se c == NULL
+/// @return true se a operação foi bem sucedida; false se c == NULL
 bool setX_circulo(CIRCULO c, double x);
 
 /// @brief atribui uma coordenada y ao círculo
 /// @param c círculo
 /// @param y coordenada y
-/// @return true se atualizou; false se c == NULL
+/// @return true se a operação foi bem sucedida; false se c == NULL
 bool setY_circulo(CIRCULO c, double y);
 
 /// @brief atribui um raio ao círculo
 /// @param c círculo
 /// @param r raio
-/// @return true se atualizou; false se c == NULL || r <= 0
+/// @return true se a operação foi bem sucedida; false se c == NULL || r <= 0
 bool setR_circulo(CIRCULO c, double r);
 
 /// @brief atribui uma cor de borda ao círculo
 /// @param c círculo
 /// @param corb cor de borda 
-/// @return true se atualizou; false se c == NULL || corb == NULL
+/// @return true se a operação foi bem sucedida; false se c == NULL || corb == NULL
 bool setCORB_circulo(CIRCULO c, const char* corb);
 
 /// @brief atribui uma cor de preenchimento ao círculo
 /// @param c círculo
 /// @param corp cor de preenchimento
-/// @return true se atualizou; false se c == NULL || corp == NULL
+/// @return true se a operação foi bem sucedida; false se c == NULL || corp == NULL
 bool setCORP_circulo(CIRCULO c, const char* corp);
 
 #endif

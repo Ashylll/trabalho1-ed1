@@ -178,16 +178,14 @@ bool setCORB_retangulo(RETANGULO r, const char* corb){
 
     stRetangulo *retangulo = (stRetangulo*)r;
     
-    if (retangulo->corb) {                      
-        if (corb == retangulo->corb) return true;
-        if (strcmp(retangulo->corb, corb) == 0) return true;  
-    }
-    
-    char* p = (char*) realloc(retangulo->corb, strlen(corb)+1);
-    if(!p) return false;
+    if (retangulo->corb && strcmp(retangulo->corb, corb) == 0) return true;
 
-    retangulo->corb = p;
-    strcpy(retangulo->corb, corb);
+    char *novo = malloc(strlen(corb)+1);
+    if (!novo) return false;
+
+    strcpy(novo, corb);
+    free(retangulo->corb);
+    retangulo->corb = novo;
 
     return true;
 }
@@ -197,16 +195,14 @@ bool setCORP_retangulo(RETANGULO r, const char* corp){
 
     stRetangulo *retangulo = (stRetangulo*)r;
     
-    if (retangulo->corp) {                      
-        if (corp == retangulo->corp) return true;
-        if (strcmp(retangulo->corp, corp) == 0) return true;  
-    }
+    if (retangulo->corp && strcmp(retangulo->corp, corp) == 0) return true;             
 
-    char* p = (char*) realloc(retangulo->corp, strlen(corp)+1);
-    if(!p) return false;
+    char *novo = malloc(strlen(corp)+1);
+    if (!novo) return false;
 
-    retangulo->corp = p;
-    strcpy(retangulo->corp, corp);
+    strcpy(novo, corp);
+    free(retangulo->corp);
+    retangulo->corp = novo;
 
     return true;
 }

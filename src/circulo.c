@@ -155,16 +155,14 @@ bool setCORB_circulo(CIRCULO c, const char* corb){
 
     stCirculo *circulo = (stCirculo*)c; 
 
-    if (circulo->corb) {                      
-        if (corb == circulo->corb) return true;
-        if (strcmp(circulo->corb, corb) == 0) return true;  
-    }
+    if (circulo->corb && strcmp(circulo->corb, corb) == 0) return true;
     
-    char* p = (char*) realloc(circulo->corb, strlen(corb)+1);
-    if(!p) return false;
+    char* novo = malloc(strlen(corb)+1);
+    if(!novo) return false;
 
-    circulo->corb = p;
-    strcpy(circulo->corb, corb);
+    strcpy(novo, corb);
+    free(circulo->corb);
+    circulo->corb = novo;
 
     return true;
 }
@@ -174,16 +172,14 @@ bool setCORP_circulo(CIRCULO c, const char* corp){
 
     stCirculo *circulo = (stCirculo*)c; 
     
-    if (circulo->corp) {                      
-        if (corp == circulo->corp) return true;
-        if (strcmp(circulo->corp, corp) == 0) return true;  
-    }
+    if (circulo->corp && strcmp(circulo->corp, corp) == 0) return true;
+    
+    char* novo = malloc(strlen(corp)+1);
+    if(!novo) return false;
 
-    char* p = (char*) realloc(circulo->corp, strlen(corp)+1);
-    if(!p) return false;
-
-    circulo->corp = p;
-    strcpy(circulo->corp, corp);
+    strcpy(novo, corp);
+    free(circulo->corp);
+    circulo->corp = novo;
 
     return true;
 }
