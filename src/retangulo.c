@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 typedef struct stRetangulo {
     int i;
@@ -16,7 +17,7 @@ RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const c
         return NULL;
     }
 
-    if (w < 0 || h < 0) {
+    if (w <= 0 || h <= 0) {
         fprintf(stderr, "Dimensões inválidas\n");
         return NULL;
     }
@@ -54,6 +55,7 @@ RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const c
 }
 
 double area_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
      double area = retangulo->w * retangulo->h;
@@ -61,45 +63,63 @@ double area_retangulo(RETANGULO r){
      return area;
 } 
 
+void destruir_retangulo(RETANGULO *r){
+    if(!r || !*r) return;
+    stRetangulo *retangulo = (stRetangulo*)*r;
+
+    free(retangulo->corb);
+    free(retangulo->corp);
+    free(retangulo);
+
+    *r = NULL;
+}
+
 // Funções get
 
 int getI_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
     return retangulo->i;
 }
 
 double getX_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
     return retangulo->x;
 }
 
 double getY_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
     return retangulo->y;
 }
 
 double getW_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
     return retangulo->w;
 }
 
 double getH_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
     return retangulo->h;
 }
 
-char* getCORB_retangulo(RETANGULO r){
+const char* getCORB_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
     return retangulo->corb;
 }
 
-char* getCORP_retangulo(RETANGULO r){
+const char* getCORP_retangulo(RETANGULO r){
+    assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
 
     return retangulo->corp;
@@ -135,7 +155,7 @@ bool setY_retangulo(RETANGULO r, double y){
 }
 
 bool setW_retangulo(RETANGULO r, double w){
-    if (!r) return false;
+    if (!r || w <= 0) return false;
 
     stRetangulo *retangulo = (stRetangulo*)r; 
     retangulo->w = w;
@@ -144,7 +164,7 @@ bool setW_retangulo(RETANGULO r, double w){
 }
 
 bool setH_retangulo(RETANGULO r, double h){
-    if (!r) return false;
+    if (!r || h <= 0) return false;
 
     stRetangulo *retangulo = (stRetangulo*)r; 
     retangulo->h = h;
@@ -154,19 +174,39 @@ bool setH_retangulo(RETANGULO r, double h){
 
 
 bool setCORB_retangulo(RETANGULO r, const char* corb){
-    if (!r) return false;
+    if (!r || !corb) return false;
 
-    stRetangulo *retangulo = (stRetangulo*)r; 
+    stRetangulo *retangulo = (stRetangulo*)r;
+    
+    if (retangulo->corb) {                      
+        if (corb == retangulo->corb) return true;
+        if (strcmp(retangulo->corb, corb) == 0) return true;  
+    }
+    
+    char* p = (char*) realloc(retangulo->corb, strlen(corb)+1);
+    if(!p) return false;
+
+    retangulo->corb = p;
     strcpy(retangulo->corb, corb);
 
     return true;
 }
 
 bool setCORP_retangulo(RETANGULO r, const char* corp){
-    if (!r) return false;
+    if (!r || !corp) return false;
 
-    stRetangulo *retangulo = (stRetangulo*)r; 
-    strcpy(retangulo->corp, corp);
+    stRetangulo *retangulo = (stRetangulo*)r;
     
+    if (retangulo->corp) {                      
+        if (corp == retangulo->corp) return true;
+        if (strcmp(retangulo->corp, corp) == 0) return true;  
+    }
+
+    char* p = (char*) realloc(retangulo->corp, strlen(corp)+1);
+    if(!p) return false;
+
+    retangulo->corp = p;
+    strcpy(retangulo->corp, corp);
+
     return true;
 }
