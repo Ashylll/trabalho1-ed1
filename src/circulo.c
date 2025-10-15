@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <assert.h>
 
 #define PI 3.14
 
@@ -13,8 +14,8 @@ typedef struct stCirculo{
 } stCirculo;
 
 CIRCULO criar_circulo(int i, double x, double y, double r, const char *corb, const char *corp){
-    if(!corb || !corp){
-        fprintf(stderr, "Cores inválidas\n");
+    if(!corb || !corp || r <= 0){
+        fprintf(stderr, "Parâmetros inválidos\n");
         return NULL;
     }
     stCirculo *circulo = malloc(sizeof(*circulo));
@@ -49,6 +50,7 @@ CIRCULO criar_circulo(int i, double x, double y, double r, const char *corb, con
 }
 
 double area_circulo(CIRCULO c){
+    assert (c != NULL);
     stCirculo *circulo = (stCirculo*)c;
 
     double area = PI * circulo->r * circulo->r;
@@ -56,39 +58,56 @@ double area_circulo(CIRCULO c){
     return area;
 }
 
+void destruir_circulo(CIRCULO *c){
+    if (!c || !*c) return;
+    stCirculo *circulo = (stCirculo*) *c;
+
+    free(circulo->corb);
+    free(circulo->corp);
+    free(circulo);
+
+    *c = NULL;
+}
+
 // Funções get
 
 int getI_circulo(CIRCULO c){
+    assert(c != NULL);
     stCirculo *circulo = (stCirculo*)c;
 
     return circulo->i;
 }
 
 double getX_circulo(CIRCULO c){
+    assert(c != NULL);
     stCirculo *circulo = (stCirculo*)c;
 
     return circulo->x;
 }
 
 double getY_circulo(CIRCULO c){
+    assert(c != NULL);
     stCirculo *circulo = (stCirculo*)c;
 
     return circulo->y;
 }
 
 double getR_circulo(CIRCULO c){
+    assert(c != NULL);
     stCirculo *circulo = (stCirculo*)c;
 
     return circulo->r;
 }
 
-char* getCORB_circulo(CIRCULO c){
+const char* getCORB_circulo(CIRCULO c){
+    assert(c != NULL);
     stCirculo *circulo = (stCirculo*)c;
 
     return circulo->corb;
 }
 
-char* getCORP_circulo(CIRCULO c){
+const char* getCORP_circulo(CIRCULO c){
+    assert(c != NULL);
     stCirculo *circulo = (stCirculo*)c;
 
     return circulo->corp;
@@ -123,7 +142,7 @@ bool setY_circulo(CIRCULO c, double y){
 }
 
 bool setR_circulo(CIRCULO c, double r){
-    if (!c) return false;
+    if (!c || r <= 0) return false;
 
     stCirculo *circulo = (stCirculo*)c; 
     circulo->r = r;
@@ -132,19 +151,39 @@ bool setR_circulo(CIRCULO c, double r){
 }
 
 bool setCORB_circulo(CIRCULO c, const char* corb){
-    if (!c) return false;
+    if (!c || !corb) return false;
 
     stCirculo *circulo = (stCirculo*)c; 
+
+    if (circulo->corb) {                      
+        if (corb == circulo->corb) return true;
+        if (strcmp(circulo->corb, corb) == 0) return true;  
+    }
+    
+    char* p = (char*) realloc(circulo->corb, strlen(corb)+1);
+    if(!p) return false;
+
+    circulo->corb = p;
     strcpy(circulo->corb, corb);
 
     return true;
 }
 
 bool setCORP_circulo(CIRCULO c, const char* corp){
-    if (!c) return false;
+    if (!c || !corp) return false;
 
     stCirculo *circulo = (stCirculo*)c; 
-    strcpy(circulo->corp, corp);
     
+    if (circulo->corp) {                      
+        if (corp == circulo->corp) return true;
+        if (strcmp(circulo->corp, corp) == 0) return true;  
+    }
+
+    char* p = (char*) realloc(circulo->corp, strlen(corp)+1);
+    if(!p) return false;
+
+    circulo->corp = p;
+    strcpy(circulo->corp, corp);
+
     return true;
 }
