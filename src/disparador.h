@@ -19,7 +19,7 @@ typedef void* DISPARADOR;
 /// @param x coordenada x do disparador 
 /// @param y coordenada y do disparador
 /// @return ponteiro para o disparador
-DISPARADOR criar_disparador(int l,  double x, double y);
+DISPARADOR criar_disparador(int l, double x, double y);
 
 /// @brief posiciona um disparador no plano
 /// @param d disparador
@@ -28,12 +28,17 @@ DISPARADOR criar_disparador(int l,  double x, double y);
 /// @return true se a operação foi bem sucedida, false se não
 bool posicionar_disparador(DISPARADOR d, double x, double y);
 
-/// @brief encaixa no disparador os carregadores
+/// @brief encaixa no disparador o carregador esquerdo
 /// @param d disparador
 /// @param cesq carregador esquerdo
+/// @return true se a operação foi bem sucedida, false se não
+bool encaixar_cesq(DISPARADOR d, CARREGADOR cesq);
+
+/// @brief encaixa no disparador o carregador direito
+/// @param d disparador
 /// @param cdir carregador direito
 /// @return true se a operação foi bem sucedida, false se não
-bool encaixar_disparador(DISPARADOR d, CARREGADOR cesq, CARREGADOR cdir);
+bool encaixar_cdir(DISPARADOR d, CARREGADOR cdir);
 
 /// @brief pressiona o botão esquerdo ou direito do disparador n vezes
 /// @param d disparador
@@ -83,6 +88,15 @@ double getX_disparador(DISPARADOR d);
 /// @return coordenada y
 double getY_disparador(DISPARADOR d);
 
+/// @brief retorna o carregador esquerdo do disparador
+/// @param d disparador
+/// @return carregador esquerdo
+CARREGADOR getCesq_disparador(DISPARADOR d);
+
+/// @brief retorna o carregador direito do disparador
+/// @param d disparador
+/// @return carregador direito
+CARREGADOR getCdir_disparador(DISPARADOR d);
 
 /// @brief atribui uma coordenada ao disparador   
 /// @param x coordenada x

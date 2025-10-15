@@ -13,13 +13,22 @@ typedef struct stCarregador{
 } stCarregador;
 
 CARREGADOR criar_carregador(int c){
-    stCarregador *carregador = malloc(sizeof(stCarregador));
-    if(!carregador) return NULL;
+    stCarregador *carregador = malloc(sizeof(*carregador));
+    if(!carregador){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        return NULL;
+    }
 
     carregador->c = c;
+
     carregador->formas = criar_pilha();
+    if(!carregador->formas){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(carregador);
+        return NULL;
+    }
     
-    return (CARREGADOR)carregador;
+    return carregador;
 }
 
 bool load_carregador(CARREGADOR c, FILA chao, int n){
