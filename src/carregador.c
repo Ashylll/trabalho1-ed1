@@ -1,9 +1,6 @@
 #include "carregador.h"
 #include "pilha.h"
-#include "circulo.h"
-#include "retangulo.h"
-#include "linha.h"
-#include "texto.h"
+#include "forma.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -71,18 +68,20 @@ void* pop_carregador(CARREGADOR c){
     return forma;
 }
 
-bool push_carregador(CARREGADOR c, void* forma){
-    if (!c || !forma) return false;
+bool push_carregador(CARREGADOR c, FORMA f){
+    if (!c || !f) return false;
     stCarregador *carregador = (stCarregador*)c;
 
-    if(!push_pilha(carregador->formas, forma)) return false;
+    if(!push_pilha(carregador->formas, f)) return false;
 
     return true;
 }
 
-bool peek_carregador(CARREGADOR c, void **out_forma){
+bool peek_carregador(CARREGADOR c, FORMA *out_forma){
     if (!c || !out_forma) return false;
     stCarregador *carregador = (stCarregador*)c;
   
+    if (empty_pilha(carregador->formas)) return false;
+
     return peek_pilha(carregador->formas, out_forma);
 }

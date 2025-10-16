@@ -2,6 +2,7 @@
 #define CARREGADOR_H
 
 #include "fila.h"
+#include "forma.h"
 #include <stdbool.h>
 
 typedef void* CARREGADOR;
@@ -38,12 +39,12 @@ void* pop_carregador(CARREGADOR c);
 /// @param c carregador
 /// @param forma ponteiro para a forma
 /// @return true se empilhou com sucesso, false se inválido ou erro de alocação
-bool push_carregador(CARREGADOR c, void* forma);
+bool push_carregador(CARREGADOR c, FORMA f);
 
 /// @brief retorna a forma no topo do carregador
 /// @param c carregador
 /// @param out_forma ponteiro de saída para a forma
 /// @return true se a operação foi bem sucedida, false se c == NULL || out_forma == NULL || falha na alocação
-bool peek_carregador(CARREGADOR c, void** out_forma);
+bool peek_carregador(CARREGADOR c, FORMA *out_forma);
 
 #endif
