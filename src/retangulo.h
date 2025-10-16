@@ -85,7 +85,7 @@ const char* getCORP_retangulo(RETANGULO r);
 
 /// @brief atribui um identificador ao retângulo
 /// @param r retângulo
-/// @param i identificador 'i'
+/// @param i identificador 
 /// @return true se a operação foi bem sucedida; false se r == NULL
 bool setI_retangulo(RETANGULO r, int i);
 

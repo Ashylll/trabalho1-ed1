@@ -25,51 +25,63 @@ LINHA criar_linha(int i, double x1, double y1, double x2, double y2, const char*
 
 /// @brief calcula o comprimento da linha
 /// @param l linha
+/// @pre l != NULL
 /// @return comprimento da linha
 double comprimento_linha(LINHA l);
 
 /// @brief calcula a área da linha
 /// @param l linha
+/// @pre l != NULL
 /// @return área da linha
 double area_linha(LINHA l);
+
+/// @brief libera a linha
+/// @param l ponteiro para o handle da linha
+void destruir_linha(LINHA *l);
 
 /* Funções get */
 
 /// @brief retorna o identificador da linha
 /// @param l linha
-/// @return identificador 'i'
+/// @pre l != NULL
+/// @return identificador 
 int getI_linha(LINHA l);
 
 /// @brief retorna a coordenada x1 da linha
 /// @param l linha 
+/// @pre l != NULL
 /// @return coordenada x1 
 double getX1_linha(LINHA l);
 
 /// @brief retorna a coordenada y1 da linha
 /// @param l linha   
+/// @pre l != NULL
 /// @return coordenada y1 
 double getY1_linha(LINHA l);
 
 /// @brief retorna a coordenada x2 da linha
 /// @param l linha
+/// @pre l != NULL
 /// @return coordenada x2
 double getX2_linha(LINHA l);
 
 /// @brief retorna a coordenada y2 da linha
 /// @param l linha
+/// @pre l != NULL
 /// @return coordenada y2
 double getY2_linha(LINHA l);
 
 /// @brief retorna a cor da linha
 /// @param l linha
-/// @return cor da linha (string)
-char* getCOR_linha(LINHA l);
+/// @pre l != NULL
+/// @return ponteiro para string com a cor da linha (apenas leitura)
+const char* getCOR_linha(LINHA l);
 
 /* Funções set */
 
 /// @brief atribui um identificador à linha
 /// @param l linha
-/// @param i identificador 'i'
+/// @param i identificador
 /// @return true se a operação foi bem sucedida, false se não
 bool setI_linha(LINHA l, int i);
 

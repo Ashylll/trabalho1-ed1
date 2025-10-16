@@ -34,7 +34,6 @@ bool empty_fila(FILA f){
     stFila *fila = (stFila*)f;
     return (fila->inicio == NULL);
 
-    return false;
 }
 
 bool add_fila(FILA f, void *item){
