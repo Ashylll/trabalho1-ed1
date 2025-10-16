@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 typedef void* DISPARADOR;
-
+typedef void* FORMA;
 
 /*
     disparador.h

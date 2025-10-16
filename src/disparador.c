@@ -4,6 +4,7 @@
 #include "circulo.h"
 #include "texto.h"
 #include "linha.h"
+#include "forma.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -98,7 +99,28 @@ bool shift_disparador(DISPARADOR d, char lado, int n){
 }
 
 bool disparo(DISPARADOR d, double dx, double dy, char modo){
+    if(!d) return false;
+    stDisparador *disparador = (stDisparador*)d;
+    if(!disparador->emDisparo) return false;
 
+    FORMA f = disparador->emDisparo;
+
+    double x,y;
+
+    if (!getXY_forma(f, &x, &y)) return false;
+
+    if(!deslocar_forma(f, dx, dy)) return false;
+
+    if(modo == 'v'){
+        static int id_trajeto = -1;
+        LINHA trajeto = criar_linha(id_trajeto--, x, y, x + dx, y + dy, "violet");
+        FORMA ftrajeto = criar_forma('l', trajeto);
+
+    }
+
+    disparador->emDisparo = NULL;
+
+    return true;
 }
 
 bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy){
