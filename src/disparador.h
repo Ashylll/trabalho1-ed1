@@ -13,7 +13,6 @@ typedef void* DISPARADOR;
 
 */
 
-
 /// @brief cria e posiciona um disparador no plano
 /// @param l identificador para o disparador
 /// @param x coordenada x do disparador 
@@ -69,22 +68,23 @@ bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy)
 /// @param d disparador
 void destruir_disparador(DISPARADOR *d);
 
-
-
 // Operações get
 
 /// @brief retorna o identificador do disparador
 /// @param d disparador
-/// @return identificador 'l'
+/// @pre d != NULL
+/// @return identificador
 int getL_disparador(DISPARADOR d);
 
 /// @brief retorna a coordenada x do disparador
 /// @param d disparador
+/// @pre d != NULL
 /// @return coordenada x
 double getX_disparador(DISPARADOR d);
 
 /// @brief retorna a coordenada y do disparador
 /// @param d disparador
+/// @pre d != NULL
 /// @return coordenada y
 double getY_disparador(DISPARADOR d);
 
