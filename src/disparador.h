@@ -6,6 +6,7 @@
 
 typedef void* DISPARADOR;
 typedef void* FORMA;
+typedef void* SAIDA;
 
 /*
     disparador.h
@@ -51,8 +52,9 @@ bool shift_disparador(DISPARADOR d, char lado, int n);
 /// @param dx deslocamento da forma na coordenada x
 /// @param dy deslocamento da forma na coordenada y
 /// @param modo 'v' (visualizar) para traçar a linha da trajetória da forma, 'i' (ignorar) para ignorar o trajeto. Se ausente, trata como 'i'
+/// @param sauda caso modo == 'v', a função gera a linha da trajetória e passa para um ponteiro 'saida' de saída
 /// @return true se a operação foi bem sucedida, false se não
-bool disparo(DISPARADOR d, double dx, double dy, char modo);
+bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida);
 
 /// @brief dispara em rajada várias formas
 /// @param d disparador

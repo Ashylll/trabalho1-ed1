@@ -5,6 +5,8 @@
 #include "texto.h"
 #include "linha.h"
 #include "forma.h"
+#include "saida.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -16,6 +18,7 @@ typedef struct stDisparador{
     CARREGADOR cesq;
     CARREGADOR cdir;
     FORMA emDisparo;
+    int id_trajeto;
 } stDisparador;
 
 DISPARADOR criar_disparador(int l, double x, double y){
@@ -31,6 +34,7 @@ DISPARADOR criar_disparador(int l, double x, double y){
     disparador->cesq = NULL;
     disparador->cdir = NULL;
     disparador->emDisparo = NULL;
+    disparador->id_trajeto = -1;
 
     return disparador;
 }
@@ -98,7 +102,7 @@ bool shift_disparador(DISPARADOR d, char lado, int n){
     return  moveu;
 }
 
-bool disparo(DISPARADOR d, double dx, double dy, char modo){
+bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida){
     if(!d) return false;
     stDisparador *disparador = (stDisparador*)d;
     if(!disparador->emDisparo) return false;
@@ -112,9 +116,14 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo){
     if(!deslocar_forma(f, dx, dy)) return false;
 
     if(modo == 'v'){
-        static int id_trajeto = -1;
-        LINHA trajeto = criar_linha(id_trajeto--, x, y, x + dx, y + dy, "violet");
-        FORMA ftrajeto = criar_forma('l', trajeto);
+        int id = gerar_id_trajeto(saida);
+
+        LINHA trajeto = criar_linha(id, x, y, x + dx, y + dy, "violet");
+
+        if(trajeto){
+            FORMA ftrajeto = criar_forma('l', trajeto);
+            add_forma_saida(saida, ftrajeto);
+        }
 
     }
 
@@ -124,12 +133,46 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo){
 }
 
 bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy){
+    if (!d || (lado != 'e' && lado != 'd')) return false;
+    stDisparador *disparador = (stDisparador*)d;
     
+    if (lado == 'e'){
+        while(!empty_carregador(disparador->cdir) || disparador->emDisparo){
+            if(!disparador->emDisparo){
+
+                if (!shift_disparador(disparador, 'e', 1)) return false;
+                if (!disparador->emDisparo) break;
+            }
+
+            if (!disparo(disparador, dx, dy, 'i', NULL)) return false;
+
+            dx += ix;
+            dy += iy;
+        }
+        return empty_carregador(disparador->cdir) && (disparador->emDisparo == NULL);
+    } 
+    else {
+         while(!empty_carregador(disparador->cesq) || disparador->emDisparo){
+            if(!disparador->emDisparo){
+                if (!shift_disparador(disparador, 'd', 1)) return false;
+                if (!disparador->emDisparo) break;
+            }
+            if (!disparo(disparador, dx, dy, 'i', NULL)) return false;
+
+            dx += ix;
+            dy += iy;
+        }
+        return empty_carregador(disparador->cesq) && (disparador->emDisparo == NULL);
+    }
 }
 
 void destruir_disparador(DISPARADOR *d){
     if (!d || !*d) return;                 
     stDisparador *disparador = (stDisparador*)*d;
+    
+    destruir_carregador(&disparador->cesq);
+    destruir_carregador(&disparador->cdir);
+    destruir_forma(&disparador->emDisparo);
     
     free(disparador);
     *d = NULL;
