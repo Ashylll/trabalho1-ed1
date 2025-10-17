@@ -21,8 +21,8 @@ typedef void* SAIDA;
 SAIDA criar_saida(void);
 
 /// @brief libera toda a memória associada à estrutura de saída
-/// @param s saída
-void destruir_saida(SAIDA s);
+/// @param s ponteiro para o handle de saída
+void destruir_saida(SAIDA *s);
 
 /// @brief adiciona uma forma à saída SVG
 /// @param s saída
@@ -30,7 +30,7 @@ void destruir_saida(SAIDA s);
 /// @return true se a operação foi bem sucedida, false se s == NULL ou erro interno
 bool add_forma_saida(SAIDA s, FORMA f);
 
-/// @brief adiciona uma mensagem de texto à saída TXT
+/// @brief adiciona uma mensagem de texto à saída TXT (copia a string internamente)
 /// @param s saída
 /// @param texto texto (string)
 /// @return true se a operação foi bem sucedida, false se s == NULL ou erro interno 
@@ -47,5 +47,10 @@ bool gerar_svg(SAIDA s, FILE* arq);
 /// @param arq ponteira para arquivo aberto
 /// @return true se a operação foi bem sucedida, false se s == NULL || falha ao abrir o arquivo || erro interno 
 bool gerar_txt(SAIDA s, FILE* arq);
+
+/// @brief gera um id negativo e único (decrementa a cada chamada) para a linha que representa a trajetória
+/// @param s saída
+/// @return id negativo 
+int gerar_id_trajeto(SAIDA s);
 
 #endif
