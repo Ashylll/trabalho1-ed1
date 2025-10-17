@@ -47,4 +47,9 @@ bool push_carregador(CARREGADOR c, FORMA f);
 /// @return true se a operação foi bem sucedida, false se c == NULL || out_forma == NULL || falha na alocação
 bool peek_carregador(CARREGADOR c, FORMA *out_forma);
 
+/// @brief checa se o carregador está vazio
+/// @param c carregador
+/// @return true se estiver vazio, false se não
+bool empty_carregador(CARREGADOR c);
+
 #endif

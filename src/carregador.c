@@ -44,17 +44,16 @@ bool load_carregador(CARREGADOR c, FILA chao, int n){
     return (i == n);
 }
 
-bool destruir_carregador(CARREGADOR *c){
-    if(!c || !*c) return true;
+void destruir_carregador(CARREGADOR *c){
+    if(!c || !*c) return;
     stCarregador *carregador = (stCarregador*)*c;
-    if(!empty_pilha(carregador->formas)) return false;
+    if(!empty_pilha(carregador->formas)) return;
 
     destruir_pilha(&carregador->formas);
 
     free(carregador);
     *c = NULL;
 
-    return true;
 }
 
 void* pop_carregador(CARREGADOR c){
@@ -84,4 +83,13 @@ bool peek_carregador(CARREGADOR c, FORMA *out_forma){
     if (empty_pilha(carregador->formas)) return false;
 
     return peek_pilha(carregador->formas, out_forma);
+}
+
+bool empty_carregador(CARREGADOR c){
+    if (!c) return false;
+    stCarregador *carregador = (stCarregador*)c;
+
+    if (empty_pilha(carregador->formas)) return true;
+
+    return false;
 }
