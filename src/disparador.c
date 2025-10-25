@@ -102,7 +102,7 @@ bool shift_disparador(DISPARADOR d, char lado, int n){
     return  moveu;
 }
 
-bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida){
+bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida, ARENA arena){
     if(!d) return false;
     stDisparador *disparador = (stDisparador*)d;
     if(!disparador->emDisparo) return false;
@@ -115,7 +115,7 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida){
 
     if(!deslocar_forma(f, dx, dy)) return false;
 
-    if(modo == 'v'){
+    if(modo == 'v' && saida){
         int id = gerar_id_trajeto(saida);
 
         LINHA trajeto = criar_linha(id, x, y, x + dx, y + dy, "violet");
@@ -127,12 +127,13 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida){
 
     }
 
+    add_arena(arena, f);
     disparador->emDisparo = NULL;
 
     return true;
 }
 
-bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy){
+bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy, ARENA arena){
     if (!d || (lado != 'e' && lado != 'd')) return false;
     stDisparador *disparador = (stDisparador*)d;
     
@@ -144,7 +145,7 @@ bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy)
                 if (!disparador->emDisparo) break;
             }
 
-            if (!disparo(disparador, dx, dy, 'i', NULL)) return false;
+            if (!disparo(disparador, dx, dy, 'i', NULL, arena)) return false;
 
             dx += ix;
             dy += iy;
@@ -157,7 +158,7 @@ bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy)
                 if (!shift_disparador(disparador, 'd', 1)) return false;
                 if (!disparador->emDisparo) break;
             }
-            if (!disparo(disparador, dx, dy, 'i', NULL)) return false;
+            if (!disparo(disparador, dx, dy, 'i', NULL, arena)) return false;
 
             dx += ix;
             dy += iy;

@@ -2,11 +2,13 @@
 #define DISPARADOR_H
 
 #include "carregador.h"
+#include "forma.h"
+#include "saida.h"
+#include "arena.h"
+
 #include <stdbool.h>
 
 typedef void* DISPARADOR;
-typedef void* FORMA;
-typedef void* SAIDA;
 
 /*
     disparador.h
@@ -53,8 +55,9 @@ bool shift_disparador(DISPARADOR d, char lado, int n);
 /// @param dy deslocamento da forma na coordenada y
 /// @param modo 'v' (visualizar) para traçar a linha da trajetória da forma, 'i' (ignorar) para ignorar o trajeto. Se ausente, trata como 'i'
 /// @param saida caso modo == 'v', a função gera a linha da trajetória e passa para um ponteiro 'saida' de saída
+/// @param arena arena para guardar cada forma lançada
 /// @return true se a operação foi bem sucedida, false se não
-bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida);
+bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida, ARENA arena);
 
 /// @brief dispara em rajada várias formas
 /// @param d disparador
@@ -63,8 +66,9 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida);
 /// @param dy deslocamento da forma na coordenada y
 /// @param ix incremento ao deslocamento a cada disparo na coordenada x
 /// @param iy incremento ao deslocamento a cada disparo na coordenada y
+/// @param arena arena para guardar cada forma lançada
 /// @return true se a operação foi bem sucedida, false se não
-bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy);
+bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy, ARENA arena);
 
 /// @brief apaga o disparador
 /// @param d disparador

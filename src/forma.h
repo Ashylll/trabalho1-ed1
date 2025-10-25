@@ -19,12 +19,12 @@ typedef void* FORMA;
 
 /// @brief cria uma forma
 /// @param tipo tipo da forma (círculo, retângulo, texto ou linha)
-/// @param handle handle para a forma (ponteiro para ponteiro)
+/// @param handle handle para a forma (ponteiro para a forma)
 /// @return ponteiro para a forma
 FORMA criar_forma(char tipo, void* handle);
 
 /// @brief libera a forma
-/// @param f forma
+/// @param f ponteiro para handle FORMA
 void destruir_forma(FORMA *f);
 
 /// @brief retorna o identificador da forma

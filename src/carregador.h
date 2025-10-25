@@ -1,7 +1,7 @@
 #ifndef CARREGADOR_H
 #define CARREGADOR_H
 
-#include "fila.h"
+#include "chao.h"
 #include "forma.h"
 #include <stdbool.h>
 
@@ -23,7 +23,7 @@ CARREGADOR criar_carregador(int c);
 /// @param chao chão
 /// @param n número de formas
 /// @return true se a operação foi bem sucedida, false se não
-bool load_carregador(CARREGADOR c, FILA chao, int n);
+bool load_carregador(CARREGADOR c, CHAO chao, int n);
 
 /// @brief libera o carregador
 /// @param c carregador

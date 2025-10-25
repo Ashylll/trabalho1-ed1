@@ -14,7 +14,7 @@ typedef struct stForma{
 } stForma;
 
 FORMA criar_forma(char tipo, void* handle){
-    if (!handle) return NULL;
+    if (!handle || (tipo != 'c' && tipo != 'r' && tipo != 't' && tipo != 'l')) return NULL;
 
     stForma* forma = malloc(sizeof(stForma));
     if (!forma) return NULL;

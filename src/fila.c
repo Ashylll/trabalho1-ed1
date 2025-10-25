@@ -57,14 +57,14 @@ bool add_fila(FILA f, void *item){
     return true;
 }
 
-bool rmv_fila(FILA f, void **item){
-    if (!f) return false;
+bool rmv_fila(FILA f, void **out_item){
+    if (!f || !out_item) return false;
     
     stFila *fila = (stFila*)f;
     if (fila->inicio == NULL) return false;
 
     PONT apagar = fila->inicio;
-    *item = apagar->chave;
+    *out_item = apagar->chave;
     fila->inicio = apagar->prox;
     if (fila->inicio == NULL) fila->fim = NULL;
     free(apagar);

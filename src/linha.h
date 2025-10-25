@@ -85,31 +85,31 @@ const char* getCOR_linha(LINHA l);
 /// @return true se a operação foi bem sucedida, false se não
 bool setI_linha(LINHA l, int i);
 
-/// @brief retorna a coordenada x1 da linha
+/// @brief atribui uma coordenada x1 à linha
 /// @param l linha 
 /// @param x1 coordenada x1
 /// @return true se a operação foi bem sucedida, false se não
 bool setX1_linha(LINHA l, double x1);
 
-/// @brief retorna a coordenada y1 da linha
+/// @brief atribui ua coordenada y1 à linha
 /// @param l linha   
 /// @param y1 coordenada y1 
 /// @return true se a operação foi bem sucedida, false se não 
 bool setY1_linha(LINHA l, double y1);
 
-/// @brief retorna a coordenada x2 da linha
+/// @brief atribui uma coordenada x2 à linha
 /// @param l linha
 /// @param x2 coordenada x2
 /// @return true se a operação foi bem sucedida, false se não
 bool setX2_linha(LINHA l, double x2);
 
-/// @brief retorna a coordenada y2 da linha
+/// @brief atribui uma coordenada y2 à linha
 /// @param l linha
 /// @param y2 coordenada y2 
 /// @return true se a operação foi bem sucedida, false se não
 bool setY2_linha(LINHA l, double y2);
 
-/// @brief retorna a cor da linha
+/// @brief atribui uma cor à linha
 /// @param l linha
 /// @param cor cor
 /// @return true se a operação foi bem sucedida, false se não

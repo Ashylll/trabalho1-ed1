@@ -1,4 +1,8 @@
 #include "saida.h"
+#include "circulo.h"
+#include "retangulo.h"
+#include "linha.h"
+#include "texto.h"
 #include "forma.h"
 #include "fila.h"
 
@@ -69,7 +73,14 @@ bool add_texto_saida(SAIDA s, const char*  texto){
 
     stSaida *saida = (stSaida*)s;
 
-    if(!add_fila(saida->textos, strdup(texto))) return false;
+    char* dup = malloc(strlen(texto)+1);
+    if (!dup) return false;
+    
+    strcpy(dup, texto);
+    if (!add_fila(saida->textos, dup)) {
+        free(dup);
+        return false;
+    }
 
     return true;
 }

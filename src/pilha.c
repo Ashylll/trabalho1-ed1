@@ -1,6 +1,8 @@
 #include "pilha.h"
+
 #include <stdlib.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef struct elemento{
     void *chave;
@@ -14,10 +16,15 @@ typedef struct stPilha{
 } stPilha;
 
 PILHA criar_pilha(void){
-    stPilha *p = malloc(sizeof(stPilha));
-    if (p != NULL) p->topo = NULL;
+    stPilha *pilha = malloc(sizeof(stPilha));
+    if (!pilha){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        return NULL;
+    }
+    
+    pilha->topo = NULL;
 
-    return (PILHA)p; 
+    return (PILHA)pilha; 
 }
 
 bool empty_pilha(PILHA p){

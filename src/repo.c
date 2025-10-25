@@ -2,6 +2,7 @@
 #include "fila.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct stObjeto {
     int id;

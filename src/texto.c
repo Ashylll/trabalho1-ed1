@@ -6,7 +6,7 @@
 #include <assert.h>
 
 #define FFAMILY_PADRAO "sans"
-#define FWEIGHT_PADRAO 'n'
+#define FWEIGHT_PADRAO "n"
 #define FSIZE_PADRAO 12
 #define CONST_AREA 20.0
 
@@ -54,14 +54,22 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
     }
     strcpy(texto->estilo.fFamily, FFAMILY_PADRAO);
 
-    texto->estilo.fWeight = FWEIGHT_PADRAO;
-    texto->estilo.fSize = FSIZE_PADRAO;
+    texto->estilo.fWeight = malloc(strlen(FWEIGHT_PADRAO)+1);
+    if (!texto->estilo.fWeight){
+        fprintf(stderr, "Erro na alocação de memória\n");
+        free(texto->estilo.fFamily);
+        free(texto);
+        return NULL;
+    }
+    strcpy(texto->estilo.fWeight, FWEIGHT_PADRAO);
 
+    texto->estilo.fSize = FSIZE_PADRAO;
 
     texto->corb = malloc(strlen(corb)+1);
     if (!texto->corb){
         fprintf(stderr, "Erro na alocação de memória\n");
         free(texto->estilo.fFamily);
+        free(texto->estilo.fWeight);
         free(texto);
         return NULL;    
     }
@@ -72,6 +80,7 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
         fprintf(stderr, "Erro na alocação de memória\n");
         free(texto->corb);
         free(texto->estilo.fFamily);
+        free(texto->estilo.fWeight);
         free(texto);
         return NULL;    
     }
@@ -83,6 +92,7 @@ TEXTO criar_texto(int i, double x, double y, const char* corb, const char* corp,
         free(texto->corp);
         free(texto->corb);
         free(texto->estilo.fFamily);
+        free(texto->estilo.fWeight);
         free(texto);
         return NULL;    
     }
@@ -109,6 +119,7 @@ void destruir_texto(TEXTO *t){
     stTexto *texto = (stTexto*)*t;
 
     free(texto->estilo.fFamily);
+    free(texto->estilo.fWeight);
     free(texto->corb);
     free(texto->corp);
     free(texto->txto);

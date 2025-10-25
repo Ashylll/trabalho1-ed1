@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "carregador.h": "c",
+        "disparador.h": "c"
+    }
+}

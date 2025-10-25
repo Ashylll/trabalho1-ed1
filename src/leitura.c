@@ -8,6 +8,7 @@
 #include "texto.h"
 #include "linha.h"
 #include "repo.h"
+#include "arena.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,6 +18,8 @@
 bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
     FILE *fp = fopen(path_geo, "r");
     if(!fp) return false;
+
+    ARENA arena = criar_arena();
 
     char linha[1024], comando[8];
 
@@ -125,32 +128,32 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
             double x, y;
             DISPARADOR d = NULL;
 
-            if (sscanf(linha, "%d %lf %lf", &l, &x, &y) == 3){
+            if (sscanf(linha, "%*s %d %lf %lf", &l, &x, &y) == 3){
                 d = repo_assegurar_disparador(repo, l, x, y);
                 if (d) posicionar_disparador(d, x, y);
             }
         }
 
         else if (strcmp(comando, "lc") == 0){
-            int c, n;
+            int c_id, n;
             CARREGADOR c = NULL;
-            if (sscanf(linha, "%*s %d %d", &c, &n) == 2){
-                c = repo_assegurar_carregador(repo, c);
+            if (sscanf(linha, "%*s %d %d", &c_id, &n) == 2){
+                c = repo_assegurar_carregador(repo, c_id);
                 if (c) load_carregador(c, chao, n);
             }
         }
 
         else if (strcmp(comando, "atch") == 0){
-            int d_id, cesq, dir;
+            int d_id, cesq_id, cdir_id;
             DISPARADOR d;
             CARREGADOR cesq;
             CARREGADOR cdir;
 
-            if (sscanf(linha, "%*s %d %d %d", &d_id, &cesq, &cdir) == 3){
+            if (sscanf(linha, "%*s %d %d %d", &d_id, &cesq_id, &cdir_id) == 3){
                 d = repo_get_disparador(repo, d_id);
                 if (d){
-                    cesq = repo_take_carregaodor(repo, cesq);
-                    cdir = repo_take_carregaodor(repo, cdir);
+                    cesq = repo_take_carregador(repo, cesq_id);
+                    cdir = repo_take_carregador(repo, cdir_id);
                     if (cesq) encaixar_cesq(d, cesq);
                     if (cdir) encaixar_cdir(d, cdir);
                 }  
@@ -162,7 +165,7 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
             char lado;
             DISPARADOR d;
 
-            if (sscanf(linha, "%*s %d %c %d", &d_id, &lado, &n)){
+            if (sscanf(linha, "%*s %d %c %d", &d_id, &lado, &n) == 3){
                 d = repo_get_disparador(repo, d_id);
                 if (d) shift_disparador(d, lado, n);
             }
@@ -176,11 +179,11 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
 
             if (sscanf(linha, "%*s %d %lf %lf  %c", &d_id, &dx, &dy, &modo) >= 3){
                 d = repo_get_disparador(repo, d_id);
-                if (d) disparo(d, dx, dy, modo, saida);
+                if (d) disparo(d, dx, dy, modo, saida, arena);
             }
         }
 
-        else if (strcmp(comando, "dsp") == 0){
+        else if (strcmp(comando, "rjd") == 0){
             int d_id;
             char lado;
             double dx, dy, ix, iy;
@@ -188,7 +191,7 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
 
             if (sscanf(linha, "%*s %d %c %lf %lf %lf %lf", &d_id, &lado, &dx, &dy, &ix, &iy) == 6){
                 d = repo_get_disparador(repo, d_id);
-                if (d) rajada(d, lado, dx, dx, ix, iy);
+                if (d) rajada(d, lado, dx, dy, ix, iy, arena);
             }
         }
 

@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#define PI 3.14
+#define PI 3.141592653589793
 
 typedef struct stCirculo{
     int i;

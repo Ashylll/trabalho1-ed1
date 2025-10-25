@@ -1,6 +1,7 @@
 #include "carregador.h"
 #include "pilha.h"
 #include "forma.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -28,16 +29,16 @@ CARREGADOR criar_carregador(int c){
     return carregador;
 }
 
-bool load_carregador(CARREGADOR c, FILA chao, int n){
+bool load_carregador(CARREGADOR c, CHAO chao, int n){
     if(!c || !chao || n <= 0) return false;
 
     stCarregador *carregador = (stCarregador*)c;
-    void *f = NULL;
+    FORMA f = NULL;
     int i;
     for(i = 0; i < n; i++){
-        if (!rmv_fila(chao, &f)) break;
+        if (!rmv_chao(chao, &f)) break;
         if (!push_pilha(carregador->formas, f)){
-            add_fila(chao, f);
+            add_chao(chao, f);
             return false;
         }
     }
@@ -47,8 +48,12 @@ bool load_carregador(CARREGADOR c, FILA chao, int n){
 void destruir_carregador(CARREGADOR *c){
     if(!c || !*c) return;
     stCarregador *carregador = (stCarregador*)*c;
-    if(!empty_pilha(carregador->formas)) return;
 
+    void *aux = NULL;
+    while (pop_pilha(carregador->formas, &aux)) {
+        FORMA f = (FORMA)aux;
+        destruir_forma(&f);          
+    }
     destruir_pilha(&carregador->formas);
 
     free(carregador);
@@ -86,10 +91,8 @@ bool peek_carregador(CARREGADOR c, FORMA *out_forma){
 }
 
 bool empty_carregador(CARREGADOR c){
-    if (!c) return false;
+    if (!c) return true;
     stCarregador *carregador = (stCarregador*)c;
 
-    if (empty_pilha(carregador->formas)) return true;
-
-    return false;
+    return (empty_pilha(carregador->formas));
 }

@@ -162,7 +162,7 @@ bool setY2_linha(LINHA l, double y2){
 }
 
 bool setCOR_linha(LINHA l, const char* cor){
-    if (!l) return false;
+    if (!l || !cor) return false;
     stLinha *linha = (stLinha*)l;
 
     if (linha->cor && strcmp(linha->cor, cor) == 0) return true;
