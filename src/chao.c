@@ -31,10 +31,13 @@ void destruir_chao(CHAO *c){
     if(!c || !*c) return;
     stChao *chao = (stChao*)*c;
 
-    void *aux;
-    while(rmv_fila(chao->formas, &aux));
+    void *aux = NULL;
+    while (rmv_fila(chao->formas, &aux)){
+        FORMA f = (FORMA)aux;
+        destruir_forma(&f);
+    }
+    
     destruir_fila(&chao->formas);
-
     free(chao);
     *c = NULL;
 }

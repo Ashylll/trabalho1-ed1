@@ -27,9 +27,16 @@ FORMA criar_forma(char tipo, void* handle){
 
 void destruir_forma(FORMA *f){
     if (!f || !*f) return;
+    stForma *forma = (stForma*)*f;
 
-    free(*f);
-
+    switch (forma->tipo){
+        case 'c': destruir_circulo((CIRCULO*)&forma->handle); break;
+        case 'r': destruir_retangulo((RETANGULO*)&forma->handle); break;
+        case 't': destruir_texto((TEXTO*)&forma->handle); break;
+        case 'l': destruir_linha((LINHA*)&forma->handle); break;
+    }
+    
+    free(forma);
     *f = NULL;
 }
 
