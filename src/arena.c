@@ -6,12 +6,12 @@ typedef struct stArena {
 } stArena;
 
 ARENA criar_arena(void){
-    stArena *a = malloc(sizeof *a);
-    if (!a) return NULL;
+    stArena *arena = malloc(sizeof (*arena));
+    if (!arena) return NULL;
 
-    a->formas = criar_fila();
-
-    return a;
+    arena->formas = criar_fila();
+    
+    return arena;
 }
 
 void destruir_arena(ARENA *a){
@@ -43,6 +43,6 @@ FORMA rmv_arena(ARENA a){
 bool empty_arena(ARENA a){
     if (!a) return true;
     stArena *arena = (stArena*)a;
-    
+
     return empty_fila(arena->formas);
 }

@@ -19,8 +19,6 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
     FILE *fp = fopen(path_geo, "r");
     if(!fp) return false;
 
-    ARENA arena = criar_arena();
-
     char linha[1024], comando[8];
 
     char fFamily[32] = "sans";
@@ -117,6 +115,8 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
     FILE *fp = fopen(path_qry, "r");
     if(!fp) return false;
 
+    ARENA arena = criar_arena();
+
     char linha[1024], comando [8];
 
     while (fgets(linha, sizeof linha, fp)){
@@ -200,6 +200,7 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
         }
     }
 
+    destruir_arena(&arena);
     fclose(fp);
     return true;
 }

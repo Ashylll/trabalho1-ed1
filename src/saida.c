@@ -45,7 +45,7 @@ void destruir_saida(SAIDA *s){
 
     while (rmv_fila(saida->formas, &aux)) {
         FORMA f = (FORMA)aux;
-        if (getI_forma(f) < 0) destruir_forma(&f);
+        if (f && getI_forma(f) < 0) destruir_forma(&f);
     }
     destruir_fila(&saida->formas);
 

@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+typedef void* OBJETO;
+
 typedef struct stObjeto {
     int id;
     char tipo;

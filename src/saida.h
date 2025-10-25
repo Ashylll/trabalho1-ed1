@@ -2,7 +2,6 @@
 #define SAIDA_H
 
 #include "forma.h"
-#include "fila.h"
 
 #include <stdio.h>
 #include <stdbool.h>

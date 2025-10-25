@@ -6,10 +6,13 @@
 
 #include <stdbool.h>
 
+/* 
+    repo.h
+    Módulo responsável pelo repositório de disparadores e carregadores
+    
+*/
 
 typedef void* REPO;
-
-typedef void* OBJETO;
 
 // Cria repositório para disparadores e carregadores
 REPO criar_repo(void);
