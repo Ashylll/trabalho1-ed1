@@ -25,10 +25,9 @@ CARREGADOR criar_carregador(int c);
 /// @return true se a operação foi bem sucedida, false se não
 bool load_carregador(CARREGADOR c, FILA chao, int n);
 
-/// @brief apaga o carregador
+/// @brief libera o carregador
 /// @param c carregador
-/// @return true se a operação foi bem sucedida, false se não
-bool destruir_carregador(CARREGADOR *c);
+void destruir_carregador(CARREGADOR *c);
 
 /// @brief retira uma forma do carregador
 /// @param c carregador
