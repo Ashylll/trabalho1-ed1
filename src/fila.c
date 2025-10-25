@@ -83,6 +83,27 @@ bool peek_fila(FILA f, void **out_item){
     return true;
 }
 
+int tamanho_fila(FILA f){
+    if (!f || empty_fila(f)) return 0;
+
+    void *inicio = NULL; 
+    if (!peek_fila(f, &inicio)) return 0;
+    int n = 0;
+    void *aux = NULL;
+
+    for (;;) {
+        rmv_fila(f, &aux);
+        add_fila(f, aux);
+        n++;
+
+        void *primeiro = NULL; 
+        peek_fila(f, &primeiro);
+        if (primeiro == inicio) break;
+    }
+
+    return n;
+}
+
 void destruir_fila(FILA *f){
     if (!f || !*f) return;
 
