@@ -105,17 +105,22 @@ CARREGADOR getCesq_disparador(DISPARADOR d);
 CARREGADOR getCdir_disparador(DISPARADOR d);
 
 /// @brief atribui uma coordenada ao disparador   
-/// @param x coordenada x
 /// @param d disparador
+/// @param x coordenada x
 /// @return true se a operação foi bem sucedida, false se não
 bool setX_disparador(DISPARADOR d, double x);
 
-
 /// @brief atribui uma coordenada ao disparador   
-/// @param y coordenada y
 /// @param d disparador
+/// @param y coordenada y
 /// @return true se a operação foi bem sucedida, false se não
 bool setY_disparador(DISPARADOR d, double y);
+
+/// @brief retorna a forma no em posição de disparo
+/// @param d disparador
+/// @return forma em posição de disparo ou NULL se vazio/inválido
+FORMA forma_em_disparo(DISPARADOR d);
+
 
 
 

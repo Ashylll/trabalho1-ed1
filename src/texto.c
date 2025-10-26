@@ -320,3 +320,24 @@ bool mudar_estilo(TEXTO t, const char *fFamily, const char *fWeight, int fSize){
 
     return true;
 }
+
+const char* getFFamily_texto(TEXTO t){
+    if (!t) return NULL;
+    stTexto *texto = (stTexto*)t;
+
+    return texto->estilo.fFamily; 
+}
+
+char getFWeight_texto(TEXTO t){
+    if (!t) return 'n';
+    stTexto *texto = (stTexto*)t;
+
+    return texto->estilo.fWeight;
+}
+
+int getFSize_texto(TEXTO t){
+    if (!t) return 0;
+    stTexto *texto = (stTexto*)t;
+
+    return texto->estilo.fSize;
+}

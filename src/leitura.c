@@ -9,6 +9,7 @@
 #include "linha.h"
 #include "repo.h"
 #include "arena.h"
+#include "calc.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,6 +44,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
                 FORMA f = criar_forma('c', c);
                 add_chao(chao, f);
                 add_forma_saida(saida, f);
+                registrar_id(i);
             }
         }
 
@@ -60,6 +62,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
                 FORMA f = criar_forma('r', r);
                 add_chao(chao, f);
                 add_forma_saida(saida, f);
+                registrar_id(i);
             }
         }
 
@@ -77,6 +80,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
                 FORMA f = criar_forma('l', l);
                 add_chao(chao, f);
                 add_forma_saida(saida, f);
+                registrar_id(i);
             }
 
         }
@@ -96,6 +100,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
                 FORMA f = criar_forma('t', t);
                 add_chao(chao, f);
                 add_forma_saida(saida, f);
+                registrar_id(i);
             }
         }
 
@@ -175,11 +180,44 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
             int d_id;
             double dx, dy;
             char modo = 'i';
-            DISPARADOR d;
+        
+            int lidos = sscanf(linha, "%*s %d %lf %lf %c", &d_id, &dx, &dy, &modo);
+            if (lidos < 3){
+                add_texto_saida(saida, "[*] dsp (linha inválida)");
+                continue;
+            }
 
-            if (sscanf(linha, "%*s %d %lf %lf  %c", &d_id, &dx, &dy, &modo) >= 3){
-                d = repo_get_disparador(repo, d_id);
-                if (d) disparo(d, dx, dy, modo, saida, arena);
+            char buf[128];
+            if (lidos == 4){
+                snprintf(buf, sizeof buf, "[*] dsp %d %.2f %.2f %c", d_id, dx, dy, modo);
+            } else {
+                snprintf(buf, sizeof buf, "[*] dsp %d %.2f %.2f", d_id, dx, dy);
+            }
+            
+            add_texto_saida(saida, buf);
+
+            DISPARADOR d = repo_get_disparador(repo, d_id);
+            if (!d){
+                add_texto_saida(saida, "erro: disparador inexistente");
+                continue;
+            }    
+
+            double xi = 0, yi = 0, xf = 0, yf = 0;
+            FORMA f = forma_em_disparo(d);
+            if (f){
+                xi = getX_forma(f), yi = getY_forma(f);
+                xf = xi + dx,       yf = yi + dy;
+
+                info_forma_txt(saida, f);
+                info_posicoes_txt(saida, xi, yi, xf, yf);
+                pula_linha(saida);
+            }
+            
+            registrar_disparo(saida);
+
+            if (!disparo(d, dx, dy, modo, saida, arena)){
+                add_texto_saida(saida, "erro ao disparar");
+                continue;
             }
         }
 
@@ -196,7 +234,9 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
         }
 
         else if (strcmp(comando, "calc") == 0){
+            add_texto_saida(saida, "[*] calc");
 
+            if (!calc(chao, arena, saida)) add_texto_saida(saida, "erro: calc");
         }
     }
 

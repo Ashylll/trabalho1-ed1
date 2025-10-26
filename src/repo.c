@@ -1,5 +1,7 @@
 #include "repo.h"
 #include "fila.h"
+#include "disparador.h"
+#include "carregador.h"
 
 #include <stdlib.h>
 #include <stdbool.h>

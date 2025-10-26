@@ -133,6 +133,14 @@ bool setTXTO_texto(TEXTO t, const char* txto);
 /// @return true se a operação foi bem sucedida, false se t == NULL || fFamily == NULL || fWeight inválido
 bool mudar_estilo(TEXTO t, const char* fFamily, const char* fWeight, int fSize);
 
+/// @brief obtém a font-family atual do texto
+/// @return ponteiro constante para a string interna (não modifique)
+const char* getFFamily_texto(TEXTO t);
 
+/// @brief obtém o font-weight atual ('n'|'b'|'l'|etc.)
+char getFWeight_texto(TEXTO t);
+
+/// @brief obtém o font-size atual (px)
+int getFSize_texto(TEXTO t);
 
 #endif

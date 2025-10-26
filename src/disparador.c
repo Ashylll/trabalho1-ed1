@@ -103,7 +103,7 @@ bool shift_disparador(DISPARADOR d, char lado, int n){
 }
 
 bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida, ARENA arena){
-    if(!d) return false;
+    if(!d || !arena) return false;
     stDisparador *disparador = (stDisparador*)d;
     if(!disparador->emDisparo) return false;
 
@@ -230,4 +230,11 @@ bool setY_disparador(DISPARADOR d, double y){
     disparador->y = y;
 
     return true;
+}
+
+FORMA forma_em_disparo(DISPARADOR d){
+    if (!d) return NULL;
+    stDisparador *disp = (stDisparador*)d;
+    
+    return disp->emDisparo;
 }

@@ -1,6 +1,7 @@
 #include "chao.h"
 #include "forma.h"
 #include "fila.h"
+#include "svg.h"
 
 #include <stdlib.h>
 #include <stdbool.h>
@@ -78,4 +79,20 @@ int size_chao(CHAO c){
     stChao *chao = (stChao*)c;
 
     return chao->n;
+}
+
+void percorrer_chao(CHAO c, FILE *fp){
+    if (!c || !fp) return;
+
+    stChao *chao = (stChao*)c;
+    void *aux;
+
+    // copiar a fila pra não destruir o chão
+    FILA temp = copiar_fila(chao->formas);
+    while (rmv_fila(temp, &aux)){
+        FORMA f = (FORMA)aux;
+        svg_escrever_forma(fp, f);
+    }
+
+    destruir_fila(&temp);
 }

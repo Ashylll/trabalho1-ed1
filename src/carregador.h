@@ -43,7 +43,7 @@ bool push_carregador(CARREGADOR c, FORMA f);
 /// @brief retorna a forma no topo do carregador
 /// @param c carregador
 /// @param out_forma ponteiro de saída para a forma
-/// @return true se a operação foi bem sucedida, false se c == NULL || out_forma == NULL || falha na alocação
+/// @return true se a operação foi bem sucedida, false se c == NULL || out_forma == NULL || pilha vazia
 bool peek_carregador(CARREGADOR c, FORMA *out_forma);
 
 /// @brief checa se o carregador está vazio

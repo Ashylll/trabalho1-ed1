@@ -4,6 +4,7 @@
 #include "forma.h"
 
 #include <stdbool.h>
+#include <stdio.h>
 
 /*
     chao.h
@@ -42,6 +43,11 @@ bool empty_chao(CHAO c);
 /// @param c chão
 /// @return número inteiro de formas
 int size_chao(CHAO c);
+
+/// @brief percorre o chão desenhando as formas 
+/// @param c chão
+/// @param fp arquivo SVG aberto em modo escrita 
+void percorrer_chao(CHAO c, FILE *fp);
 
 
 

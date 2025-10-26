@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-typedef void* FORMA;
-
 /*
     forma.h
     Módulo responsável por conciliar e unificar operações sobre as formas do projeto
@@ -17,6 +15,16 @@ typedef void* FORMA;
 
 */
 
+typedef void* FORMA;
+
+/// @brief registra um id lido no arquivo .geo, atualizando o maior id global
+/// @param id identificador da forma
+void registrar_id(int id);
+
+/// @brief gera um novo id único para clones
+/// @return id novo, incrementando o maior id atual
+int gerar_id_clone(void);
+
 /// @brief cria uma forma
 /// @param tipo tipo da forma (círculo, retângulo, texto ou linha)
 /// @param handle handle para a forma (ponteiro para a forma)
@@ -26,6 +34,12 @@ FORMA criar_forma(char tipo, void* handle);
 /// @brief libera a forma
 /// @param f ponteiro para handle FORMA
 void destruir_forma(FORMA *f);
+
+/// @brief retorna a área da forma
+/// @param f forma
+/// @pre f!= NULL
+/// @return área
+double area_forma(FORMA f);
 
 /// @brief retorna o identificador da forma
 /// @param f forma
@@ -64,6 +78,26 @@ bool setXY_forma(FORMA f, double x, double y);
 /// @param dy deslocamento no eixo y
 /// @return true se a operação foi bem sucedida; false se f == NULL
 bool deslocar_forma(FORMA f, double dx, double dy);
+
+/// @brief verifica se há sobreposição entre duas formas
+/// @details Faz uso de funções auxiliares para analisar cada combinação de tipos e trata a simetria de entrada
+/// @param a forma 1
+/// @param b forma 2
+/// @return true se há sobreposição; false se não há || ponteiros nulos
+bool sobrepoe_formas(FORMA a, FORMA b);
+
+/// @brief cria uma cópia da forma
+/// @param f forma original
+/// @pre f != NULL
+/// @return nova forma clonada; NULL se erro ou tipo desconhecido
+FORMA clonar_forma(FORMA f);
+
+/// @brief troca as cores entre duas formas
+/// @param i forma 1
+/// @param j forma 2
+/// @pre i != NULL && j != NULL
+void trocar_cores(FORMA i, FORMA j);
+
 
 
 #endif

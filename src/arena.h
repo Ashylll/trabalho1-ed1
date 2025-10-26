@@ -26,9 +26,9 @@ void destruir_arena(ARENA *a);
 /// @return true se a operação foi bem sucedida, false se houve erro
 bool add_arena(ARENA a, FORMA f);
 
-/// @brief remove uma forma da arena
+/// @brief remove uma forma da arena em ordem de disparo
 /// @param a arena
-/// @return true se a operação foi bem sucedida, false se houve erro 
+/// @return forma removida; NULL se vazio ou inválido
 FORMA rmv_arena(ARENA a);
 
 /// @brief checa se não há formas na arena

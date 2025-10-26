@@ -2,6 +2,7 @@
 #define SAIDA_H
 
 #include "forma.h"
+#include "chao.h"
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -39,17 +40,45 @@ bool add_texto_saida(SAIDA s, const char* texto);
 /// @param s saída
 /// @param arq ponteiro para arquivo aberto
 /// @return true se a operação foi bem sucedida, false se s == NULL || falha ao abrir o arquivo || erro interno 
-bool gerar_svg(SAIDA s, FILE* arq);
+bool gerar_svg(SAIDA s, CHAO chao, FILE *fp);
 
 /// @brief gera arquivo TXT com todas as mensagens escritas
 /// @param s saída
 /// @param arq ponteira para arquivo aberto
 /// @return true se a operação foi bem sucedida, false se s == NULL || falha ao abrir o arquivo || erro interno 
-bool gerar_txt(SAIDA s, FILE* arq);
+bool gerar_txt(SAIDA s, FILE *fp);
 
 /// @brief gera um id negativo e único (decrementa a cada chamada) para a linha que representa a trajetória
 /// @param s saída
 /// @return id negativo 
 int gerar_id_trajeto(SAIDA s);
+
+/// soma área na pontuação total
+void somar_pontuacao(SAIDA s, double area);
+
+/// Incrementam o contador de formas esmagadas, número de instruções, de disparos e de formas clonadas.
+void registrar_esmagada(SAIDA s);
+void registrar_instrucao(SAIDA s);
+void registrar_disparo(SAIDA s);
+void registrar_clone(SAIDA s);
+
+/// Retornam os valores registrados (pontuação, número de instruções, de disparos, de esmagadas e de clonagens)
+double get_pontuacao(SAIDA s);
+int get_instrucoes(SAIDA s);
+int get_disparos(SAIDA s);
+int get_esmagadas(SAIDA s);
+int get_clones(SAIDA s);
+
+/// Coloca uma marca visual (asterisco vermelho) no local da forma esmagada
+void marcar_esmagada(SAIDA s, FORMA esmagada);
+
+/// Escreve no arquivo aberto todas as informações da forma 
+void info_forma_txt(SAIDA s, FORMA f);
+
+/// Escreve no arquivo aberto as posições inicial e final da forma deslocada por um comando
+void info_posicoes_txt(SAIDA s, double xi, double yi, double xf, double yf);
+
+/// Pula uma linha no arquivo aberto
+void pula_linha(SAIDA s);
 
 #endif
