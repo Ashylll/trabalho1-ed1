@@ -16,9 +16,8 @@
 /// @brief realiza a leitura do arquivo .geo e cria as formas correspondentes
 /// @param path_geo caminho para o arquivo .geo
 /// @param chao chão onde as formas são armazenadas 
-/// @param saida estrutura de saída para registrar as formas criadas
 /// @return true se o arquivo foi lido com sucesso; false se falhou ao abrir ou a ler
-bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida);
+bool ler_geo(const char *path_geo, CHAO chao);
 
 /// @brief realiza a leitura do arquivo .qry e executa os comandos correspondentes
 /// @param path_qry caminho para o arquivo .qry

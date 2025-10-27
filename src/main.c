@@ -77,7 +77,7 @@ int main(int argc, char *argv[]){
     SAIDA saida = criar_saida();
 
     // leitura .geo
-    if (!ler_geo(geo_path, chao, saida)) {
+    if (!ler_geo(geo_path, chao)) {
         fprintf(stderr, "Erro ao ler .geo\n");
         destruir_saida(&saida);
         destruir_repo(&repo);

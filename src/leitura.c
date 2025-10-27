@@ -16,7 +16,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
+bool ler_geo(const char *path_geo, CHAO chao){
     FILE *fp = fopen(path_geo, "r");
     if(!fp) return false;
 
@@ -43,7 +43,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
             if (c){
                 FORMA f = criar_forma('c', c);
                 add_chao(chao, f);
-                add_forma_saida(saida, f);
+    
                 registrar_id(i);
             }
         }
@@ -61,7 +61,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
             if (r){
                 FORMA f = criar_forma('r', r);
                 add_chao(chao, f);
-                add_forma_saida(saida, f);
+                
                 registrar_id(i);
             }
         }
@@ -79,7 +79,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
             if (l){
                 FORMA f = criar_forma('l', l);
                 add_chao(chao, f);
-                add_forma_saida(saida, f);
+                
                 registrar_id(i);
             }
 
@@ -99,7 +99,7 @@ bool ler_geo(const char *path_geo, CHAO chao, SAIDA saida){
                 (void)mudar_estilo(t, fFamily, fWeight, fSize);
                 FORMA f = criar_forma('t', t);
                 add_chao(chao, f);
-                add_forma_saida(saida, f);
+                
                 registrar_id(i);
             }
         }

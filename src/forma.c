@@ -12,6 +12,15 @@
 #include <stdio.h>
 #include <stddef.h>
 
+static char* str_dup_c99(const char *src){
+    if (!src) return NULL;
+    size_t len = strlen(src) + 1;
+    char *dup = malloc(len);
+    if (!dup) return NULL;
+    memcpy(dup, src, len);
+    return dup;
+}
+
 typedef struct stForma{
     char tipo;
     void* handle;
@@ -759,34 +768,39 @@ void trocar_cores(FORMA i, FORMA j){
 void inverter_cores(FORMA f){
     if (!f) return;
     char t = getTipo_forma(f);
-
-    if (t == 'l') {
-        const char *c = getCOR_linha(getHandle_forma(f));
-        char comp[8];
-        const char *novo = comp_hex(c, comp) ? comp : c; 
-        setCOR_linha(getHandle_forma(f), novo);
-        return;
-    }
+    void *h = getHandle_forma(f);
+    if (!h) return;
 
     switch (t){
         case 'c': {
-            const char *b = getCORB_circulo(getHandle_forma(f));
-            const char *p = getCORP_circulo(getHandle_forma(f));
-            setCORB_circulo(getHandle_forma(f), p);
-            setCORP_circulo(getHandle_forma(f), b);
+            char *b = str_dup_c99(getCORB_circulo(h));
+            char *p = str_dup_c99(getCORP_circulo(h));
+            if (!b || !p){ free(b); free(p); return; }
+            setCORB_circulo(h, p);  
+            setCORP_circulo(h, b);
+            free(b); free(p);
         } break;
+
         case 'r': {
-            const char *b = getCORB_retangulo(getHandle_forma(f));
-            const char *p = getCORP_retangulo(getHandle_forma(f));
-            setCORB_retangulo(getHandle_forma(f), p);
-            setCORP_retangulo(getHandle_forma(f), b);
+            char *b = str_dup_c99(getCORB_retangulo(h));
+            char *p = str_dup_c99(getCORP_retangulo(h));
+            if (!b || !p){ free(b); free(p); return; }
+            setCORB_retangulo(h, p);
+            setCORP_retangulo(h, b);
+            free(b); free(p);
         } break;
+
         case 't': {
-            const char *b = getCORB_texto(getHandle_forma(f));
-            const char *p = getCORP_texto(getHandle_forma(f));
-            setCORB_texto(getHandle_forma(f), p);
-            setCORP_texto(getHandle_forma(f), b);
+            char *b = str_dup_c99(getCORB_texto(h));
+            char *p = str_dup_c99(getCORP_texto(h));
+            if (!b || !p){ free(b); free(p); return; }
+            setCORB_texto(h, p);
+            setCORP_texto(h, b);
+            free(b); free(p);
         } break;
-        default: break;
+
+        case 'l': default:
+            
+        break;
     }
 }
