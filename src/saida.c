@@ -264,9 +264,9 @@ void marcar_esmagada(SAIDA s, FORMA esmagada){
 
     int id = gerar_id_trajeto(s);
  
-    TEXTO t = criar_texto(id, x, y, "none", "red", 'm', "*");
+    TEXTO t = criar_texto(id, x, y, "none", "#ff0000", 'm', "*");
     if (!t) return;
-    mudar_estilo(t, "sans", "b", 20);
+    mudar_estilo(t, "sans", "b", 28);
 
     FORMA marca = criar_forma('t', t);
     if (!marca){
