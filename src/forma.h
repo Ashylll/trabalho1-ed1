@@ -2,6 +2,7 @@
 #define FORMA_H
 
 #include <stdbool.h>
+#include <stddef.h>
 
 /*
     forma.h
@@ -100,6 +101,11 @@ void trocar_cores(FORMA i, FORMA j);
 
 // Inverte as cores da forma. Preenchimento -> borda, borda -> preenchimento; caso linha: cor -> cor complementar
 void inverter_cores(FORMA f);
+
+const char* hex_para_nome(const char *hex);
+
+const char* nome_para_hex(const char *cor);
+
 
 
 

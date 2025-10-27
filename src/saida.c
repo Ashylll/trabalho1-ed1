@@ -43,6 +43,28 @@ static void coord_marca(FORMA f, double *px, double *py){
     }
 }
 
+static void color_dupla(char *out, size_t cap, const char *c){
+    if (!out || cap == 0){ return; }
+    if (!c || !*c){ snprintf(out, cap, "(sem cor)"); return; }
+
+    const char *hex  = NULL;
+    const char *nome = NULL;
+
+    if (c[0] == '#'){        
+        hex  = c;
+        nome = hex_para_nome(c);
+    } else {                 
+        nome = c;
+        hex  = nome_para_hex(c);
+    }
+
+    if (hex && nome && strcmp(hex, nome) != 0){
+        snprintf(out, cap, "%s (%s)", hex, nome);  
+    } else {
+        snprintf(out, cap, "%s", c);                
+    }
+}
+
 typedef struct stSaida {
     FILA formas;
     FILA textos;
@@ -259,52 +281,64 @@ void info_forma_txt(SAIDA s, FORMA f){
     if (!s || !f) return;
 
     char buf[256];
+    char corfmt[64];
     char t = getTipo_forma(f);
     void *hand = getHandle_forma(f);
 
     switch (t){
         case 'c': {
-            snprintf(buf, sizeof buf, "Círculo %d", getI_circulo(hand));
-            add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "x: %.2f", getX_circulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "y: %.2f", getY_circulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "r: %.2f", getR_circulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "corb: %s", getCORB_circulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "corp: %s", getCORP_circulo(hand)); add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "Círculo %d", getI_circulo(hand));  add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "x: %.2f", getX_circulo(hand));     add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "y: %.2f", getY_circulo(hand));     add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "r: %.2f", getR_circulo(hand));     add_texto_saida(s, buf);
+
+            color_dupla(corfmt, sizeof corfmt, getCORB_circulo(hand));
+            snprintf(buf, sizeof buf, "corb: %s", corfmt);                add_texto_saida(s, buf);
+
+            color_dupla(corfmt, sizeof corfmt, getCORP_circulo(hand));
+            snprintf(buf, sizeof buf, "corp: %s", corfmt);                add_texto_saida(s, buf);
         } break;
 
         case 'r': {
-            snprintf(buf, sizeof buf, "Retângulo %d", getI_retangulo(hand));
-            add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "x: %.2f", getX_retangulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "y: %.2f", getY_retangulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "w: %.2f", getW_retangulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "h: %.2f", getH_retangulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "corb: %s", getCORB_retangulo(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "corp: %s", getCORP_retangulo(hand)); add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "Retângulo %d", getI_retangulo(hand)); add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "x: %.2f", getX_retangulo(hand));      add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "y: %.2f", getY_retangulo(hand));      add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "w: %.2f", getW_retangulo(hand));      add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "h: %.2f", getH_retangulo(hand));      add_texto_saida(s, buf);
+
+            color_dupla(corfmt, sizeof corfmt, getCORB_retangulo(hand));
+            snprintf(buf, sizeof buf, "corb: %s", corfmt);                   add_texto_saida(s, buf);
+
+            color_dupla(corfmt, sizeof corfmt, getCORP_retangulo(hand));
+            snprintf(buf, sizeof buf, "corp: %s", corfmt);                   add_texto_saida(s, buf);
         } break;
 
         case 'l': {
-            snprintf(buf, sizeof buf, "Linha %d", getI_linha(hand));
-            add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "Linha %d", getI_linha(hand));  add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "x1: %.2f", getX1_linha(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "y1: %.2f", getY1_linha(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "x2: %.2f", getX2_linha(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "y2: %.2f", getY2_linha(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "cor: %s", getCOR_linha(hand)); add_texto_saida(s, buf);
+
+            color_dupla(corfmt, sizeof corfmt, getCOR_linha(hand));
+            snprintf(buf, sizeof buf, "cor: %s", corfmt);             add_texto_saida(s, buf);
         } break;
 
         case 't': {
-            snprintf(buf, sizeof buf, "Texto %d", getI_texto(hand));
-            add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "x: %.2f", getX_texto(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "y: %.2f", getY_texto(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "corb: %s", getCORB_texto(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "corp: %s", getCORP_texto(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "font: %s", getFFamily_texto(hand)); add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "Texto %d", getI_texto(hand));  add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "x: %.2f", getX_texto(hand));   add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "y: %.2f", getY_texto(hand));   add_texto_saida(s, buf);
+
+            color_dupla(corfmt, sizeof corfmt, getCORB_texto(hand));
+            snprintf(buf, sizeof buf, "corb: %s", corfmt);            add_texto_saida(s, buf);
+
+            color_dupla(corfmt, sizeof corfmt, getCORP_texto(hand));
+            snprintf(buf, sizeof buf, "corp: %s", corfmt);            add_texto_saida(s, buf);
+
+            snprintf(buf, sizeof buf, "font: %s",   getFFamily_texto(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "weight: %s", getFWeight_texto(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "size: %d", getFSize_texto(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "txt: \"%s\"", getTXTO_texto(hand)); add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "size: %d",   getFSize_texto(hand));   add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "txt: \"%s\"", getTXTO_texto(hand));   add_texto_saida(s, buf);
         } break;
 
         default:

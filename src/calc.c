@@ -20,19 +20,13 @@ bool calc(CHAO chao, ARENA arena, SAIDA saida){
     double area_round = 0.0;
     int verifs = 0, esmagadas_round = 0, clonadas_round = 0;
 
-    while (!empty_arena(arena)){
+    while (1){
         FORMA I = rmv_arena(arena);
-        if (!I) continue;
-
-        if (empty_arena(arena)){
-            add_chao(chao, I);
-            break;
-        }
-
+        if (!I) break; 
         FORMA J = rmv_arena(arena);
-        if (!J){
-            add_chao(chao, I);
-            continue;
+        if (!J) {
+            add_chao(chao, I);  
+            break;
         }
 
         double aI = area_forma(I);

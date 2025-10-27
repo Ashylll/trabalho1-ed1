@@ -10,6 +10,7 @@
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>
+#include <stddef.h>
 
 typedef struct stForma{
     char tipo;
@@ -679,6 +680,18 @@ const char* nome_para_hex(const char* cor) {
             return kCoresSVG[i].hex;             
     }
     return cor; 
+}
+
+const char* hex_para_nome(const char *hex){
+    if (!hex) return "(null)";
+    if (hex[0] != '#') return hex;
+
+    for (size_t i = 0; i < sizeof kCoresSVG / sizeof kCoresSVG[0]; ++i){
+        if (strcmp(hex, kCoresSVG[i].hex) == 0)
+            return kCoresSVG[i].nome;
+    }
+
+    return hex;
 }
 
 static bool comp_hex(const char *src, char out[8]){

@@ -7,25 +7,31 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+
 
 static const char* svg_safe_color(const char* in, char* out, size_t cap){
     if (!out || cap == 0) return "#000000";
-    size_t k = 0;
-    if (in){
-        for (size_t i = 0; in[i] && k + 1 < cap; ++i){
-            unsigned char c = (unsigned char)in[i];
-            if (c >= 32 && c < 127){           // só ASCII imprimível
-                out[k++] = (char)c;
-            }
+    if (!in || !*in) { strcpy(out, "#000000"); return out; }
+
+    if (in[0] == '#') {
+        size_t n = strlen(in);
+        if (n == 4 || n == 7) {
+            int ok = 1;
+            for (size_t i = 1; i < n; ++i)
+                if (!isxdigit((unsigned char)in[i])) { ok = 0; break; }
+            if (ok) { strncpy(out, in, cap-1); out[cap-1]='\0'; return out; }
         }
     }
-    out[k] = '\0';
-    if (k == 0) {                 // fallback
-        const char *def = "#000000";
-        size_t n = 8 < cap ? 8 : cap - 1;
-        memcpy(out, def, n);
-        out[n] = '\0';
+    int letras = 1;
+    for (const char *p = in; *p; ++p){
+        unsigned char c = (unsigned char)*p;
+        if (!(c>='a' && c<='z')) { letras = 0; break; }
     }
+    if (letras && strlen(in) < cap) { strcpy(out, in); return out; }
+
+    strcpy(out, "#000000");
+    fprintf(stderr, "[svg] cor inválida → fallback (#000000): \"%s\"\n", in);
     return out;
 }
 
