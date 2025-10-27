@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <stdarg.h>
 
 static void coord_marca(FORMA f, double *px, double *py){
     *px = *py = 0.0;
@@ -135,8 +136,14 @@ bool gerar_svg(SAIDA s, CHAO chao, FILE *fp){
     // Desenha as formas auxiliares (trajetórias e asteriscos)
     void *aux;
     FILA tmp = copiar_fila(saida->formas);
-    while (rmv_fila(tmp, &aux)){
-        svg_escrever_forma(fp, (FORMA)aux);
+    while (rmv_fila(tmp, &aux)) {
+        FORMA fx = (FORMA)aux;
+        
+        if (!fx) continue;
+        char tipo = getTipo_forma(fx);
+        if (tipo != 'c' && tipo != 'r' && tipo != 'l' && tipo != 't') continue;
+
+        svg_escrever_forma(fp, fx);
     }
     destruir_fila(&tmp);
 
@@ -320,4 +327,30 @@ void pula_linha(SAIDA s){
     add_texto_saida(s, "");
 }
 
+void log_saida(SAIDA s, const char *fmt, ...) {
+    if (!s || !fmt) return;
 
+    va_list ap;
+    char buf[512];
+
+    va_start(ap, fmt);
+    int n = vsnprintf(buf, sizeof buf, fmt, ap);
+    va_end(ap);
+
+    if (n < 0) return;
+
+    if ((size_t)n < sizeof buf) {
+        add_texto_saida(s, buf);
+        return;
+    }
+    
+    char *dyn = (char*)malloc((size_t)n + 1);
+    if (!dyn) return;
+
+    va_start(ap, fmt);
+    vsnprintf(dyn, (size_t)n + 1, fmt, ap);
+    va_end(ap);
+
+    add_texto_saida(s, dyn);
+    free(dyn);
+}

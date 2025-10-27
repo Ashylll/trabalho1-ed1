@@ -1,0 +1,77 @@
+[*] pd 1 0.00 0.00
+
+[*] lc 1 2
+Retângulo 10
+x: 100.00
+y: 100.00
+w: 40.00
+h: 40.00
+corb: purple
+corp: #c8ab37
+
+Retângulo 11
+x: 0.00
+y: 100.00
+w: 20.00
+h: 20.00
+corb: purple
+corp: #00aa88
+
+[*] atch 1 1 2
+
+[*] shft 1 d 1
+Retângulo 11
+x: 0.00
+y: 100.00
+w: 20.00
+h: 20.00
+corb: purple
+corp: #00aa88
+
+[*] dsp 1 100.00 0.00 i
+Retângulo 11
+x: 0.00
+y: 100.00
+w: 20.00
+h: 20.00
+corb: purple
+corp: #00aa88
+pos_inicial: (0.00,100.00)
+pos_final: (100.00,100.00)
+
+[*] shft 1 d 1
+Retângulo 10
+x: 100.00
+y: 100.00
+w: 40.00
+h: 40.00
+corb: purple
+corp: #c8ab37
+
+[*] dsp 1 0.00 0.00 i
+Retângulo 10
+x: 100.00
+y: 100.00
+w: 40.00
+h: 40.00
+corb: purple
+corp: #c8ab37
+pos_inicial: (100.00,100.00)
+pos_final: (100.00,100.00)
+
+[*] calc
+verif 1: I(id=11, a=400.00) x J(id=10, a=1600.00)
+sobreposicao: sim
+acao: retangulo 11 esmagado; retangulo 10 volta ao chao
+
+Area esmagada (round): 400.00
+Pontuacao total: 400.00
+Verificacoes: 1 | Esmagadas: 1 | Clonadas: 0
+
+
+=== RELATÓRIO FINAL ===
+Pontuação total: 400.00
+Instruções: 8
+Disparos: 2
+Esmagadas: 1
+Clones: 0

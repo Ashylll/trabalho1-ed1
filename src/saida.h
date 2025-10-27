@@ -81,4 +81,7 @@ void info_posicoes_txt(SAIDA s, double xi, double yi, double xf, double yf);
 /// Pula uma linha no arquivo aberto
 void pula_linha(SAIDA s);
 
+// adicione no final das declarações públicas
+void log_saida(SAIDA s, const char *fmt, ...);
+
 #endif

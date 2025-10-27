@@ -8,6 +8,27 @@
 #include <stdio.h>
 #include <string.h>
 
+static const char* svg_safe_color(const char* in, char* out, size_t cap){
+    if (!out || cap == 0) return "#000000";
+    size_t k = 0;
+    if (in){
+        for (size_t i = 0; in[i] && k + 1 < cap; ++i){
+            unsigned char c = (unsigned char)in[i];
+            if (c >= 32 && c < 127){           // só ASCII imprimível
+                out[k++] = (char)c;
+            }
+        }
+    }
+    out[k] = '\0';
+    if (k == 0) {                 // fallback
+        const char *def = "#000000";
+        size_t n = 8 < cap ? 8 : cap - 1;
+        memcpy(out, def, n);
+        out[n] = '\0';
+    }
+    return out;
+}
+
 static void esc_xml(const char* in, char* out, size_t cap){
     if (!in || !out || cap == 0) return;
 
@@ -39,9 +60,10 @@ static void esc_xml(const char* in, char* out, size_t cap){
 void svg_begin(FILE *fp){
     if (!fp) return;
 
+    fprintf(fp, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
     fprintf(fp,
-    "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" "
-    "xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n"
+        "<svg xmlns:svg=\"http://www.w3.org/2000/svg\" "
+        "xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n"
     );
 }
 
@@ -58,10 +80,14 @@ void svg_escrever_forma(FILE *fp, FORMA f){
             double r = getR_circulo(hand);
             const char *corb = getCORB_circulo(hand);
             const char *corp = getCORP_circulo(hand);
+            char corb_ok[32], corp_ok[32];
 
             fprintf(fp,
-                "<circle style=\"fill:%s;fill-opacity:0.6;stroke:%s\" r=\"%.2f\" cy=\"%.2f\" cx=\"%.2f\" />\n",
-                corp, corb, r, y, x);
+            "<circle style=\"fill:%s;fill-opacity:0.6;stroke:%s\" r=\"%.2f\" cy=\"%.2f\" cx=\"%.2f\" />\n",
+            svg_safe_color(corp, corp_ok, sizeof corp_ok),
+            svg_safe_color(corb, corb_ok, sizeof corb_ok),
+            r, y, x);
+
             break;
         }
 
@@ -72,10 +98,14 @@ void svg_escrever_forma(FILE *fp, FORMA f){
             double h = getH_retangulo(hand);
             const char *corb = getCORB_retangulo(hand);
             const char *corp = getCORP_retangulo(hand);
+            char corb_ok[32], corp_ok[32];
 
             fprintf(fp,
-                "<rect style=\"fill:%s;fill-opacity:0.6;stroke:%s\" x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" />\n",
-                corp, corb, x, y, w, h);
+            "<rect style=\"fill:%s;fill-opacity:0.6;stroke:%s\" x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" />\n",
+            svg_safe_color(corp, corp_ok, sizeof corp_ok),
+            svg_safe_color(corb, corb_ok, sizeof corb_ok),
+            x, y, w, h);
+
             break;
         }
 
@@ -85,30 +115,41 @@ void svg_escrever_forma(FILE *fp, FORMA f){
             double x2 = getX2_linha(hand);
             double y2 = getY2_linha(hand);
             const char *cor = getCOR_linha(hand);
-
+            char cor_ok[32];
             fprintf(fp,
-                "<line style=\"stroke:%s;stroke-width:1.5;stroke-opacity:0.6\" x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" />\n",
-                cor, x1, y1, x2, y2);
+            "<line style=\"stroke:%s;stroke-width:1.5;stroke-opacity:0.6\" x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" />\n",
+            svg_safe_color(cor, cor_ok, sizeof cor_ok),
+            x1, y1, x2, y2);
+
             break;
         }
 
-        case 't': { 
+        case 't': {
             double x = getX_texto(hand);
             double y = getY_texto(hand);
-            const char *corb = getCORB_texto(hand);
-            const char *corp = getCORP_texto(hand);
-            const char *txto = getTXTO_texto(hand);
+            const char *corb   = getCORB_texto(hand);
+            const char *corp   = getCORP_texto(hand);
+            const char *txto   = getTXTO_texto(hand);
             const char *family = getFFamily_texto(hand);
             const char *weight = getFWeight_texto(hand);
-            int size = getFSize_texto(hand);
+            int size           = getFSize_texto(hand);
 
             char txt_esc[1024];
             esc_xml(txto, txt_esc, sizeof txt_esc);
 
+            char corb_ok[32], corp_ok[32], family_ok[64], weight_ok[16];
+
             fprintf(fp,
-                "<text style=\"fill:%s;fill-opacity:0.6;stroke:%s;font-family:%s;font-weight:%s;font-size:%dpx;line-height:0%%\" x=\"%.2f\" y=\"%.2f\">%s</text>\n",
-                corp, corb, family, weight, size, x, y, txt_esc);
-            break;
+                "<text style=\"fill:%s;fill-opacity:0.6;stroke:%s;"
+                "font-family:%s;font-weight:%s;font-size:%dpx;line-height:0%%\" "
+                "x=\"%.2f\" y=\"%.2f\">%s</text>\n",
+                svg_safe_color(corp,   corp_ok,   sizeof corp_ok),
+                svg_safe_color(corb,   corb_ok,   sizeof corb_ok),
+                svg_safe_color(family, family_ok, sizeof family_ok),
+                svg_safe_color(weight, weight_ok, sizeof weight_ok),
+                size, x, y, txt_esc);
+                
+                break;
         }
 
         default:

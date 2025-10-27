@@ -129,119 +129,139 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
         if (comando[0] == '#') continue;
 
         if (strcmp(comando, "pd") == 0){
-            int l;
-            double x, y;
-            DISPARADOR d = NULL;
-
+            int l; double x, y;
             if (sscanf(linha, "%*s %d %lf %lf", &l, &x, &y) == 3){
-                d = repo_assegurar_disparador(repo, l, x, y);
+                registrar_instrucao(saida);
+                log_saida(saida, "[*] pd %d %.2f %.2f", l, x, y);
+                DISPARADOR d = repo_assegurar_disparador(repo, l, x, y);
                 if (d) posicionar_disparador(d, x, y);
+                pula_linha(saida);
             }
         }
 
         else if (strcmp(comando, "lc") == 0){
             int c_id, n;
-            CARREGADOR c = NULL;
             if (sscanf(linha, "%*s %d %d", &c_id, &n) == 2){
-                c = repo_assegurar_carregador(repo, c_id);
-                if (c) load_carregador(c, chao, n);
+                registrar_instrucao(saida);
+                log_saida(saida, "[*] lc %d %d", c_id, n);
+
+                CARREGADOR c = repo_assegurar_carregador(repo, c_id);
+                if (c){
+                    for (int k = 0; k < n; k++){
+                        FORMA f = NULL;
+                        if (!rmv_chao(chao, &f)) break;
+                        info_forma_txt(saida, f);
+                        push_carregador(c, f);
+                        pula_linha(saida);
+                    }
+                }
             }
         }
 
         else if (strcmp(comando, "atch") == 0){
             int d_id, cesq_id, cdir_id;
-            DISPARADOR d;
-            CARREGADOR cesq;
-            CARREGADOR cdir;
-
             if (sscanf(linha, "%*s %d %d %d", &d_id, &cesq_id, &cdir_id) == 3){
-                d = repo_get_disparador(repo, d_id);
+                registrar_instrucao(saida);
+                log_saida(saida, "[*] atch %d %d %d", d_id, cesq_id, cdir_id);
+
+                DISPARADOR d = repo_get_disparador(repo, d_id);
                 if (d){
-                    cesq = repo_take_carregador(repo, cesq_id);
-                    cdir = repo_take_carregador(repo, cdir_id);
+                    CARREGADOR cesq = repo_take_carregador(repo, cesq_id);
+                    if (!cesq) cesq = criar_carregador(cesq_id);   // <<-- garante vazio
+
+                    CARREGADOR cdir = repo_take_carregador(repo, cdir_id);
+                    if (!cdir) cdir = criar_carregador(cdir_id);   // <<-- garante vazio
+
                     if (cesq) encaixar_cesq(d, cesq);
                     if (cdir) encaixar_cdir(d, cdir);
-                }  
+                }
+                pula_linha(saida);
             }
         }
 
         else if (strcmp(comando, "shft") == 0){
-            int d_id, n;
-            char lado;
-            DISPARADOR d;
-
+            int d_id, n; char lado; DISPARADOR d;
             if (sscanf(linha, "%*s %d %c %d", &d_id, &lado, &n) == 3){
+                registrar_instrucao(saida);
+                log_saida(saida, "[*] shft %d %c %d", d_id, lado, n);
+
                 d = repo_get_disparador(repo, d_id);
-                if (d) shift_disparador(d, lado, n);
+                if (d && shift_disparador(d, lado, n)){
+                    FORMA f = forma_em_disparo(d);
+                    if (f){ info_forma_txt(saida, f); pula_linha(saida); }
+                }
             }
         }
 
         else if (strcmp(comando, "dsp") == 0){
-            int d_id;
-            double dx, dy;
-            char modo = 'i';
-        
+            int d_id; double dx, dy; char modo = 'i';
             int lidos = sscanf(linha, "%*s %d %lf %lf %c", &d_id, &dx, &dy, &modo);
-            if (lidos < 3){
-                add_texto_saida(saida, "[*] dsp (linha inválida)");
-                continue;
-            }
+            if (lidos < 3){ add_texto_saida(saida, "[*] dsp (linha inválida)"); continue; }
 
-            char buf[128];
-            if (lidos == 4){
-                snprintf(buf, sizeof buf, "[*] dsp %d %.2f %.2f %c", d_id, dx, dy, modo);
-            } else {
-                snprintf(buf, sizeof buf, "[*] dsp %d %.2f %.2f", d_id, dx, dy);
-            }
-            
-            add_texto_saida(saida, buf);
+            registrar_instrucao(saida);
+            if (lidos == 4) log_saida(saida, "[*] dsp %d %.2f %.2f %c", d_id, dx, dy, modo);
+            else            log_saida(saida, "[*] dsp %d %.2f %.2f",     d_id, dx, dy);
 
             DISPARADOR d = repo_get_disparador(repo, d_id);
-            if (!d){
-                add_texto_saida(saida, "erro: disparador inexistente");
-                continue;
-            }    
+            if (!d){ add_texto_saida(saida, "erro: disparador inexistente"); continue; }
 
-            double xi = 0, yi = 0, xf = 0, yf = 0;
+            double xi=0, yi=0, xf=0, yf=0;
             FORMA f = forma_em_disparo(d);
             if (f){
                 getXY_forma(f, &xi, &yi);
-                xf = xi + dx,       yf = yi + dy;
-
+                xf = xi + dx; yf = yi + dy;
                 info_forma_txt(saida, f);
                 info_posicoes_txt(saida, xi, yi, xf, yf);
                 pula_linha(saida);
             }
-            
             registrar_disparo(saida);
-
-            if (!disparo(d, dx, dy, modo, saida, arena)){
-                add_texto_saida(saida, "erro ao disparar");
-                continue;
-            }
+            if (!disparo(d, dx, dy, modo, saida, arena)) add_texto_saida(saida, "erro ao disparar");
         }
 
         else if (strcmp(comando, "rjd") == 0){
-            int d_id;
-            char lado;
-            double dx, dy, ix, iy;
-            DISPARADOR d;
-
+            int d_id; char lado; double dx, dy, ix, iy;
             if (sscanf(linha, "%*s %d %c %lf %lf %lf %lf", &d_id, &lado, &dx, &dy, &ix, &iy) == 6){
-                d = repo_get_disparador(repo, d_id);
-                if (d) rajada(d, lado, dx, dy, ix, iy, arena);
+                registrar_instrucao(saida);
+                log_saida(saida, "[*] rjd %d %c %.2f %.2f %.2f %.2f", d_id, lado, dx, dy, ix, iy);
+
+                DISPARADOR d = repo_get_disparador(repo, d_id);
+                if (!d) { add_texto_saida(saida, "erro: disparador inexistente"); continue; }
+
+                /* origem: 'e' usa cdir; 'd' usa cesq */
+                CARREGADOR origem = (lado == 'e') ? getCdir_disparador(d) : getCesq_disparador(d);
+
+                while (d && (forma_em_disparo(d) || (origem && !empty_carregador(origem)))){
+                    if (!forma_em_disparo(d)){
+                        if (!shift_disparador(d, lado, 1)) break;
+                        if (!forma_em_disparo(d)) break;
+                    }
+
+                    FORMA f = forma_em_disparo(d);
+                    double xi, yi; getXY_forma(f, &xi, &yi);
+                    double xf = xi + dx, yf = yi + dy;
+
+                    info_forma_txt(saida, f);
+                    info_posicoes_txt(saida, xi, yi, xf, yf);
+                    pula_linha(saida);
+
+                    registrar_disparo(saida);
+                    if (!disparo(d, dx, dy, 'i', saida, arena)) { add_texto_saida(saida, "erro ao disparar"); break; }
+
+                    dx += ix; dy += iy;
+                }
             }
         }
 
         else if (strcmp(comando, "calc") == 0){
+            registrar_instrucao(saida);
             add_texto_saida(saida, "[*] calc");
-
             if (!calc(chao, arena, saida)) add_texto_saida(saida, "erro: calc");
         }
+
     }
 
     destruir_arena(&arena);
     fclose(fp);
     return true;
-}
+}    
 

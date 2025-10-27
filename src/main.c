@@ -93,7 +93,7 @@ int main(int argc, char *argv[]){
     // Gera SVG inicial
     char svg_ini[512];
     snprintf(svg_ini, sizeof svg_ini, "%s/%s.svg", path_out, base_geo);
-    FILE *fp_ini = fopen(svg_ini, "w");
+    FILE *fp_ini = fopen(svg_ini, "wb");
     if (!fp_ini) {
         fprintf(stderr, "Erro: falha ao criar %s\n", svg_ini);
         
@@ -121,7 +121,7 @@ int main(int argc, char *argv[]){
         snprintf(svg_final, sizeof svg_final, "%s/%s-%s.svg", path_out, base_geo, base_qry);
         snprintf(txt_final, sizeof txt_final, "%s/%s-%s.txt", path_out, base_geo, base_qry);
 
-        FILE *fp_svg = fopen(svg_final, "w");
+        FILE *fp_svg = fopen(svg_final, "wb");
         if (!fp_svg) {
             fprintf(stderr, "Erro: falha ao criar %s\n", svg_final);
             
