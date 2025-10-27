@@ -118,3 +118,43 @@ void destruir_fila(FILA *f){
     free(fila);
     *f = NULL;
 }
+
+FILA copiar_fila(FILA f){
+    if (!f) return NULL;
+
+    FILA clone = criar_fila();
+    FILA aux   = criar_fila();
+    if (!clone || !aux) {
+        if (clone) destruir_fila(&clone);
+        if (aux)   destruir_fila(&aux);
+        
+        return NULL;
+    }
+
+    void *item = NULL;
+    while (rmv_fila(f, &item)) {          
+        if (!add_fila(clone, item)) {     
+            while (rmv_fila(aux, &item)) add_fila(f, item);
+            destruir_fila(&aux);
+            destruir_fila(&clone);
+
+            return NULL;
+        }
+
+        if (!add_fila(aux, item)) {      
+            while (rmv_fila(aux, &item)) add_fila(f, item);
+            destruir_fila(&aux);
+            destruir_fila(&clone);
+
+            return NULL;
+        }
+    }
+
+    while (rmv_fila(aux, &item)) {
+        add_fila(f, item);
+    }
+
+    destruir_fila(&aux);
+    return clone; 
+}
+

@@ -328,8 +328,8 @@ const char* getFFamily_texto(TEXTO t){
     return texto->estilo.fFamily; 
 }
 
-char getFWeight_texto(TEXTO t){
-    if (!t) return 'n';
+const char* getFWeight_texto(TEXTO t){
+    if (!t) return "n";
     stTexto *texto = (stTexto*)t;
 
     return texto->estilo.fWeight;

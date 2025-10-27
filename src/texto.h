@@ -138,7 +138,7 @@ bool mudar_estilo(TEXTO t, const char* fFamily, const char* fWeight, int fSize);
 const char* getFFamily_texto(TEXTO t);
 
 /// @brief obtém o font-weight atual ('n'|'b'|'l'|etc.)
-char getFWeight_texto(TEXTO t);
+const char* getFWeight_texto(TEXTO t);
 
 /// @brief obtém o font-size atual (px)
 int getFSize_texto(TEXTO t);

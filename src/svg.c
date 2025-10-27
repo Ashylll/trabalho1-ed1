@@ -99,14 +99,14 @@ void svg_escrever_forma(FILE *fp, FORMA f){
             const char *corp = getCORP_texto(hand);
             const char *txto = getTXTO_texto(hand);
             const char *family = getFFamily_texto(hand);
-            char weight = getFWeight_texto(hand);
+            const char *weight = getFWeight_texto(hand);
             int size = getFSize_texto(hand);
 
             char txt_esc[1024];
             esc_xml(txto, txt_esc, sizeof txt_esc);
 
             fprintf(fp,
-                "<text style=\"fill:%s;fill-opacity:0.6;stroke:%s;font-family:%s;font-weight:%c;font-size:%dpx;line-height:0%%\" x=\"%.2f\" y=\"%.2f\">%s</text>\n",
+                "<text style=\"fill:%s;fill-opacity:0.6;stroke:%s;font-family:%s;font-weight:%s;font-size:%dpx;line-height:0%%\" x=\"%.2f\" y=\"%.2f\">%s</text>\n",
                 corp, corb, family, weight, size, x, y, txt_esc);
             break;
         }
@@ -126,7 +126,7 @@ void svg_escrever_texto(FILE *fp, TEXTO t){
     const char *corp = getCORP_texto(t);   
     const char *txto = getTXTO_texto(t);   
     const char *family = getFFamily_texto(t);
-    char weight = getFWeight_texto(t);
+    const char *weight = getFWeight_texto(t);
     int size = getFSize_texto(t);
 
     char txt_esc[1024];
@@ -139,7 +139,7 @@ void svg_escrever_texto(FILE *fp, TEXTO t){
 
     fprintf(fp,
         "<text style=\"fill:%s;fill-opacity:%.1f;stroke:%s;"
-        "font-family:%s;font-weight:%c;font-size:%dpx;line-height:0%%\" "
+        "font-family:%s;font-weight:%s;font-size:%dpx;line-height:0%%\" "
         "x=\"%.2f\" y=\"%.2f\">%s</text>\n",
         corp, opacity, corb, family, weight, size, x, y, txt_esc);
 }

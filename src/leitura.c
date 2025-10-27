@@ -205,7 +205,7 @@ bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida){
             double xi = 0, yi = 0, xf = 0, yf = 0;
             FORMA f = forma_em_disparo(d);
             if (f){
-                xi = getX_forma(f), yi = getY_forma(f);
+                getXY_forma(f, &xi, &yi);
                 xf = xi + dx,       yf = yi + dy;
 
                 info_forma_txt(saida, f);

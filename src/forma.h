@@ -92,11 +92,15 @@ bool sobrepoe_formas(FORMA a, FORMA b);
 /// @return nova forma clonada; NULL se erro ou tipo desconhecido
 FORMA clonar_forma(FORMA f);
 
-/// @brief troca as cores entre duas formas
-/// @param i forma 1
-/// @param j forma 2
+/// @brief Troca as cores de J. J recebe a cor de preenchimento de I.
+/// @param i forma 1 (nada muda nela)
+/// @param j forma 2 (a ser afetada)
 /// @pre i != NULL && j != NULL
 void trocar_cores(FORMA i, FORMA j);
+
+// Inverte as cores da forma. Preenchimento -> borda, borda -> preenchimento; caso linha: cor -> cor complementar
+void inverter_cores(FORMA f);
+
 
 
 

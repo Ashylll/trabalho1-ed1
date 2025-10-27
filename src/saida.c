@@ -5,6 +5,7 @@
 #include "texto.h"
 #include "forma.h"
 #include "fila.h"
+#include "svg.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -123,7 +124,7 @@ bool add_texto_saida(SAIDA s, const char*  texto){
 }
 
 bool gerar_svg(SAIDA s, CHAO chao, FILE *fp){
-        if (!s || !chao || !fp) return false;
+    if (!s || !chao || !fp) return false;
 
     stSaida *saida = (stSaida*)s;
     svg_begin(fp);
@@ -236,7 +237,7 @@ void marcar_esmagada(SAIDA s, FORMA esmagada){
  
     TEXTO t = criar_texto(id, x, y, "none", "red", 'm', "*");
     if (!t) return;
-    mudar_estilo(t, "sans", 'b', 20);
+    mudar_estilo(t, "sans", "b", 20);
 
     FORMA marca = criar_forma('t', t);
     if (!marca){
@@ -294,7 +295,7 @@ void info_forma_txt(SAIDA s, FORMA f){
             snprintf(buf, sizeof buf, "corb: %s", getCORB_texto(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "corp: %s", getCORP_texto(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "font: %s", getFFamily_texto(hand)); add_texto_saida(s, buf);
-            snprintf(buf, sizeof buf, "weight: %c", getFWeight_texto(hand)); add_texto_saida(s, buf);
+            snprintf(buf, sizeof buf, "weight: %s", getFWeight_texto(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "size: %d", getFSize_texto(hand)); add_texto_saida(s, buf);
             snprintf(buf, sizeof buf, "txt: \"%s\"", getTXTO_texto(hand)); add_texto_saida(s, buf);
         } break;

@@ -3,6 +3,7 @@
 
 #include "saida.h"
 #include "chao.h"
+#include "repo.h"
 
 #include <stdbool.h>
 

@@ -48,5 +48,9 @@ int tamanho_fila(FILA f);
 /// @param f fila 
 void destruir_fila(FILA *f); 
 
+// Clona a fila, preservando a ordem dos elementos.
+// A nova fila contém os mesmos ponteiros; não duplica os itens.
+FILA copiar_fila(FILA f);
+
 #endif
 

@@ -9,6 +9,7 @@
 #include <string.h>
 #include <assert.h>
 #include <math.h>
+#include <stdio.h>
 
 typedef struct stForma{
     char tipo;
@@ -669,17 +670,15 @@ static const struct { const char *nome; const char *hex; } kCoresSVG[] = {
     {"white",             "#FFFFFF"}, {"whitesmoke",        "#F5F5F5"}, {"yellow",            "#FFFF00"}, {"yellowgreen",       "#9ACD32"}
 };
 
-static const char* nome_para_hex(const char *cor){
-    if (!cor) return NULL;
+const char* nome_para_hex(const char* cor) {
+    if (cor && cor[0] == '#' && strlen(cor) == 7) return cor; 
 
-    if (cor[0] == '#' && strlen(cor) == 7) return cor;  
-    int i;
-
-    for (i = 0; i < sizeof kCoresSVG / sizeof kCoresSVG[0]; ++i){
-        if (strcmp(cor, kCoresSVG[i].nome) == 0) return kCoresSVG[i].hex;
+    size_t n = sizeof kCoresSVG / sizeof kCoresSVG[0];
+    for (size_t i = 0; i < n; ++i) {             
+        if (strcmp(cor, kCoresSVG[i].nome) == 0) 
+            return kCoresSVG[i].hex;             
     }
-
-    return cor;  // desconhecida: usa como está
+    return cor; 
 }
 
 static bool comp_hex(const char *src, char out[8]){
@@ -741,5 +740,40 @@ void trocar_cores(FORMA i, FORMA j){
         case 'r': setCORB_retangulo(getHandle_forma(j), src); break;
         case 't': setCORB_texto(getHandle_forma(j), src); break;
         case 'l': setCOR_linha(getHandle_forma(j), src); break; 
+    }
+}
+
+void inverter_cores(FORMA f){
+    if (!f) return;
+    char t = getTipo_forma(f);
+
+    if (t == 'l') {
+        const char *c = getCOR_linha(getHandle_forma(f));
+        char comp[8];
+        const char *novo = comp_hex(c, comp) ? comp : c; 
+        setCOR_linha(getHandle_forma(f), novo);
+        return;
+    }
+
+    switch (t){
+        case 'c': {
+            const char *b = getCORB_circulo(getHandle_forma(f));
+            const char *p = getCORP_circulo(getHandle_forma(f));
+            setCORB_circulo(getHandle_forma(f), p);
+            setCORP_circulo(getHandle_forma(f), b);
+        } break;
+        case 'r': {
+            const char *b = getCORB_retangulo(getHandle_forma(f));
+            const char *p = getCORP_retangulo(getHandle_forma(f));
+            setCORB_retangulo(getHandle_forma(f), p);
+            setCORP_retangulo(getHandle_forma(f), b);
+        } break;
+        case 't': {
+            const char *b = getCORB_texto(getHandle_forma(f));
+            const char *p = getCORP_texto(getHandle_forma(f));
+            setCORB_texto(getHandle_forma(f), p);
+            setCORP_texto(getHandle_forma(f), b);
+        } break;
+        default: break;
     }
 }
