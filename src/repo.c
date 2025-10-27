@@ -39,23 +39,37 @@ void destruir_repo(REPO *r){
 
     while (rmv_fila(repo->objetos, &aux)){
         stObjeto *obj = (stObjeto*)aux;
-        if (obj){
-            if (obj->tipo == 'd'){
-                DISPARADOR d = (DISPARADOR)obj->p;
-                destruir_disparador(&d);
-                
-            } else if (obj->tipo == 'c'){
-                CARREGADOR c = (CARREGADOR)obj->p;
-                destruir_carregador(&c);
-            }
-            free(obj);
+        if (!obj) continue;
+
+        switch (obj->tipo){
+            case 'd': {
+                if (obj->p){
+                    DISPARADOR d = (DISPARADOR)obj->p;
+                    destruir_disparador(&d);  
+                    obj->p = NULL;
+                }
+            } break;
+
+            case 'c': {
+                if (obj->p){
+                    CARREGADOR c = (CARREGADOR)obj->p;
+                    destruir_carregador(&c);  
+                    obj->p = NULL;
+                }
+            } break;
+
+            default:
+    
+                break;
         }
+        free(obj);
     }
 
     destruir_fila(&repo->objetos);
     free(repo);
     *r = NULL;
 }
+
 
 DISPARADOR repo_get_disparador(REPO r, int id){
     if (!r) return NULL;

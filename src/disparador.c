@@ -173,7 +173,10 @@ void destruir_disparador(DISPARADOR *d){
     
     destruir_carregador(&disparador->cesq);
     destruir_carregador(&disparador->cdir);
-    destruir_forma(&disparador->emDisparo);
+
+    if (disparador->emDisparo) {
+        destruir_forma(&disparador->emDisparo); 
+    }
     
     free(disparador);
     *d = NULL;

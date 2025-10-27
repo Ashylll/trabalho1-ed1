@@ -128,9 +128,9 @@ int main(int argc, char *argv[]){
     }
 
     // Limpeza
+    destruir_saida(&saida);
     destruir_chao(&chao);
     destruir_repo(&repo);
-    destruir_saida(&saida);
 
     printf("Arquivos gerados com sucesso em %s\n", path_out);
 
