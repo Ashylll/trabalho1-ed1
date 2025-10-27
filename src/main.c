@@ -9,6 +9,22 @@
 #include <string.h>
 #include <stdbool.h>
 
+// Helper para copiar o nome-base sem diretórios e sem extensão
+static void basename_sem_ext(const char* path, char* dest, size_t destsz) {
+    if (!dest || destsz == 0) return;
+    dest[0] = '\0';
+    if (!path) return;
+
+    const char *p = strrchr(path, '/');
+    if (!p) p = strrchr(path, '\\');
+    p = p ? p + 1 : path;
+
+    snprintf(dest, destsz, "%s", p);
+
+    char *dot = strrchr(dest, '.');
+    if (dot) *dot = '\0';
+}
+
 int main(int argc, char *argv[]){
     char path_in[256] = ".", path_out[256] = ".";
     char geo[128] = "", qry[128] = "";
@@ -63,18 +79,16 @@ int main(int argc, char *argv[]){
     // leitura .geo
     if (!ler_geo(geo_path, chao, saida)) {
         fprintf(stderr, "Erro ao ler .geo\n");
-        destruir_chao(&chao);
-        destruir_repo(&repo);
         destruir_saida(&saida);
+        destruir_repo(&repo);
+        destruir_chao(&chao);
 
         return 2;
     }
 
     // Remove extensão .geo
     char base_geo[128];
-    strcpy(base_geo, geo);
-    char *pf = strrchr(base_geo, '.');
-    if (pf) *pf = '\0';
+    basename_sem_ext(geo, base_geo, sizeof base_geo);
 
     // Gera SVG inicial
     char svg_ini[512];
@@ -92,17 +106,16 @@ int main(int argc, char *argv[]){
     if (tem_qry) {
         if (!ler_qry(qry_path, repo, chao, saida)) {
             fprintf(stderr, "Erro ao ler .qry\n");
-            destruir_chao(&chao);
-            destruir_repo(&repo);
             destruir_saida(&saida);
+            destruir_repo(&repo);
+            destruir_chao(&chao);
+            
             return 3;
         }
 
         // Gera SVG e TXT finais
         char base_qry[128];
-        strcpy(base_qry, qry);
-        pf = strrchr(base_qry, '.');
-        if (pf) *pf = '\0';
+        basename_sem_ext(qry, base_qry, sizeof base_qry);
 
         char svg_final[1024], txt_final[1024];
         snprintf(svg_final, sizeof svg_final, "%s/%s-%s.svg", path_out, base_geo, base_qry);
@@ -129,8 +142,8 @@ int main(int argc, char *argv[]){
 
     // Limpeza
     destruir_saida(&saida);
-    destruir_chao(&chao);
     destruir_repo(&repo);
+    destruir_chao(&chao);
 
     printf("Arquivos gerados com sucesso em %s\n", path_out);
 
