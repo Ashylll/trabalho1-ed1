@@ -49,23 +49,24 @@ bool posicionar_disparador(DISPARADOR d, double x, double y){
     return true;
 }
 
-bool encaixar_cesq(DISPARADOR d, CARREGADOR cesq){
-    if (!d || !cesq) return false;
-    
+CARREGADOR encaixar_cesq(DISPARADOR d, CARREGADOR cesq){
+    if (!d) return NULL;
     stDisparador *disparador = (stDisparador*)d;
+    
+    CARREGADOR antigo = disparador->cesq;
     disparador->cesq = cesq;
 
-    return true;
+    return antigo;
 }
 
-bool encaixar_cdir(DISPARADOR d, CARREGADOR cdir){
-    if (!d || !cdir) return false;
-
+CARREGADOR encaixar_cdir(DISPARADOR d, CARREGADOR cdir){
+    if (!d) return NULL;
     stDisparador *disparador = (stDisparador*)d;
 
+    CARREGADOR antigo = disparador->cdir;
     disparador->cdir = cdir;
 
-    return true;
+    return antigo;
 }
 
 bool shift_disparador(DISPARADOR d, char lado, int n){
@@ -108,11 +109,12 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida, ARENA a
     if(!disparador->emDisparo) return false;
 
     FORMA f = disparador->emDisparo;
-
+    
     double x,y;
-
-    if (!getXY_forma(f, &x, &y)) return false;
-
+    x = disparador->x; y = disparador->y;
+    
+    setXY_forma(f, x, y);
+    
     if(!deslocar_forma(f, dx, dy)) return false;
 
     if(modo == 'v' && saida){
@@ -123,12 +125,13 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida, ARENA a
         if(trajeto){
             FORMA ftrajeto = criar_forma('l', trajeto);
             add_forma_saida(saida, ftrajeto);
+
         }
 
-    }
+        add_arena(arena, f);
+        disparador->emDisparo = NULL;
 
-    add_arena(arena, f);
-    disparador->emDisparo = NULL;
+    }
 
     return true;
 }

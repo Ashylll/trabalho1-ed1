@@ -33,14 +33,14 @@ bool posicionar_disparador(DISPARADOR d, double x, double y);
 /// @brief encaixa no disparador o carregador esquerdo
 /// @param d disparador
 /// @param cesq carregador esquerdo
-/// @return true se a operação foi bem sucedida, false se não
-bool encaixar_cesq(DISPARADOR d, CARREGADOR cesq);
+/// @return carregador antigo; NULL se não existia
+CARREGADOR encaixar_cesq(DISPARADOR d, CARREGADOR cesq);
 
 /// @brief encaixa no disparador o carregador direito
 /// @param d disparador
 /// @param cdir carregador direito
-/// @return true se a operação foi bem sucedida, false se não
-bool encaixar_cdir(DISPARADOR d, CARREGADOR cdir);
+/// @return carregador antigo; NULL se não existia
+CARREGADOR encaixar_cdir(DISPARADOR d, CARREGADOR cdir);
 
 /// @brief pressiona o botão esquerdo ou direito do disparador n vezes
 /// @param d disparador
