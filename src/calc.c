@@ -26,7 +26,14 @@ bool calc(CHAO chao, ARENA arena, SAIDA saida){
         if (!I) break; 
         FORMA J = rmv_arena(arena);
         if (!J) {
-            add_chao(chao, I);  
+            char msg[128];
+            snprintf(msg, sizeof msg,
+                    "Número de elementos ímpar: %s %d não tem par para verificar (retorna ao chão)",
+                     tipo_nome(getTipo_forma(I)), getI_forma(I));
+            add_texto_saida(saida, msg);
+
+            add_chao(chao, I);
+            pula_linha(saida);
             break;
         }
 
@@ -35,17 +42,17 @@ bool calc(CHAO chao, ARENA arena, SAIDA saida){
 
         char buf[160];
         snprintf(buf, sizeof buf,
-                 "verif %d: I(id=%d, a=%.2f) x J(id=%d, a=%.2f)",
+                 "verif %d: I(id = %d, área = %.2f) x J(id = %d, área = %.2f)",
                  ++verifs, getI_forma(I), aI, getI_forma(J), aJ);
         add_texto_saida(saida, buf);
 
         if (sobrepoe_formas(I, J)){
-            add_texto_saida(saida, "sobreposicao: sim");
+            add_texto_saida(saida, "Sobreposição: sim");
 
             if (aI < aJ){
                 char msg[128];
                 snprintf(msg, sizeof msg,
-                         "acao: %s %d esmagado; %s %d volta ao chao",
+                         "Ação: %s %d esmagado; %s %d volta ao chão",
                          tipo_nome(getTipo_forma(I)), getI_forma(I),
                          tipo_nome(getTipo_forma(J)), getI_forma(J));
                 add_texto_saida(saida, msg);
@@ -77,12 +84,12 @@ bool calc(CHAO chao, ARENA arena, SAIDA saida){
                     ++clonadas_round;
 
                     snprintf(msg, sizeof msg,
-                             "acao: troca cores de J; %s %d clonado (cores invertidas); "
+                             "Ação: troca cores de J; %s %d clonado (cores invertidas); "
                              "I e J voltam; clone volta depois",
                              tipo_nome(getTipo_forma(I)), getI_forma(I));
                 } else {
                     snprintf(msg, sizeof msg,
-                             "acao: troca cores de J; falha ao clonar %s %d; apenas I e J voltam",
+                             "Ação: troca cores de J; falha ao clonar %s %d; apenas I e J voltam",
                              tipo_nome(getTipo_forma(I)), getI_forma(I));
                 }
                 add_texto_saida(saida, msg);
@@ -90,11 +97,11 @@ bool calc(CHAO chao, ARENA arena, SAIDA saida){
             }
         } else {
             
-            add_texto_saida(saida, "sobreposicao: nao");
+            add_texto_saida(saida, "Sobreposição: não");
 
             char msg[160];
             snprintf(msg, sizeof msg,
-                     "acao: %s %d e %s %d voltam ao chao na mesma ordem",
+                     "Ação: %s %d e %s %d voltam ao chão na mesma ordem",
                      tipo_nome(getTipo_forma(I)), getI_forma(I),
                      tipo_nome(getTipo_forma(J)), getI_forma(J));
             add_texto_saida(saida, msg);
@@ -108,13 +115,13 @@ bool calc(CHAO chao, ARENA arena, SAIDA saida){
     
     {
         char sum[96];
-        snprintf(sum, sizeof sum, "Area esmagada (round): %.2f", area_round);
+        snprintf(sum, sizeof sum, "Área esmagada (rodada): %.2f", area_round);
         add_texto_saida(saida, sum);
 
-        snprintf(sum, sizeof sum, "Pontuacao total: %.2f", get_pontuacao(saida));
+        snprintf(sum, sizeof sum, "Pontuação total: %.2f", get_pontuacao(saida));
         add_texto_saida(saida, sum);
 
-        snprintf(sum, sizeof sum, "Verificacoes: %d | Esmagadas: %d | Clonadas: %d",
+        snprintf(sum, sizeof sum, "Verificações: %d | Esmagadas: %d | Clonadas: %d",
                  verifs, esmagadas_round, clonadas_round);
         add_texto_saida(saida, sum);
 

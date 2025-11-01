@@ -248,6 +248,7 @@ static bool comando_rjd(const char *linha, REPO repo, SAIDA saida, ARENA arena){
 static bool comando_calc(CHAO chao, SAIDA saida, ARENA arena){
     registrar_instrucao(saida);
     add_texto_saida(saida, "[*] calc");
+    pula_linha(saida);
 
     return calc(chao, arena, saida);
 }
