@@ -22,16 +22,6 @@ void svg_begin(FILE *fp);
 /// @param f forma
 void svg_escrever_forma(FILE *fp, FORMA f);
 
-/// @brief escreve (desenha) um texto 
-/// @param fp arquivo aberto em modo escrita
-/// @param t texto
-void svg_escrever_texto(FILE *fp, TEXTO t);
-
-/// @brief escreve (desenha) uma linha
-/// @param fp arquivo aberto em modo escrita
-/// @param l linha
-void svg_escrever_linha(FILE *fp, LINHA l);
-
 /// @brief encerra o SVG
 /// @param fp arquivo aberto
 void svg_end(FILE *fp);

@@ -259,9 +259,9 @@ bool ler_geo(const char *path_geo, CHAO chao){
 
     char linha[1024], comando[8];
 
-    char fFamily[32] = "sans";
-    char fWeight[8] = "n";
-    int fSize = 12;
+    char fFamily[32] = "sans-serif";
+    char fWeight[8] = "normal";
+    int fSize = 20;
 
     while (fgets(linha, sizeof linha, fp)){
         if(sscanf(linha, "%7s", comando) != 1) continue;

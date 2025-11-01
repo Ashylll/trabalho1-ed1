@@ -88,9 +88,12 @@ void svg_escrever_forma(FILE *fp, FORMA f){
             const char *corp = getCORP_circulo(hand);
             char corb_ok[32], corp_ok[32];
 
+            double opacidade = 0.6;
+
             fprintf(fp,
-            "<circle style=\"fill:%s;fill-opacity:0.6;stroke:%s\" r=\"%.2f\" cy=\"%.2f\" cx=\"%.2f\" />\n",
+            "<circle style=\"fill:%s;fill-opacity:%.1f;stroke:%s\" r=\"%.2f\" cy=\"%.2f\" cx=\"%.2f\" />\n",
             svg_safe_color(corp, corp_ok, sizeof corp_ok),
+            opacidade,
             svg_safe_color(corb, corb_ok, sizeof corb_ok),
             r, y, x);
 
@@ -106,9 +109,12 @@ void svg_escrever_forma(FILE *fp, FORMA f){
             const char *corp = getCORP_retangulo(hand);
             char corb_ok[32], corp_ok[32];
 
+            double opacidade = 0.6;
+
             fprintf(fp,
-            "<rect style=\"fill:%s;fill-opacity:0.6;stroke:%s\" x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" />\n",
+            "<rect style=\"fill:%s;fill-opacity:%.1f;stroke:%s\" x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" />\n",
             svg_safe_color(corp, corp_ok, sizeof corp_ok),
+            opacidade,
             svg_safe_color(corb, corb_ok, sizeof corb_ok),
             x, y, w, h);
 
@@ -122,10 +128,13 @@ void svg_escrever_forma(FILE *fp, FORMA f){
             double y2 = getY2_linha(hand);
             const char *cor = getCOR_linha(hand);
             char cor_ok[32];
+
+            double opacidade = 0.8;
+
             fprintf(fp,
-            "<line style=\"stroke:%s;stroke-width:1.5;stroke-opacity:0.6\" x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" />\n",
+            "<line style=\"stroke:%s;stroke-width:2.0;stroke-opacity:%.1f\" x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" />\n",
             svg_safe_color(cor, cor_ok, sizeof cor_ok),
-            x1, y1, x2, y2);
+            opacidade, x1, y1, x2, y2);
 
             break;
         }
@@ -133,27 +142,28 @@ void svg_escrever_forma(FILE *fp, FORMA f){
         case 't': {
             double x = getX_texto(hand);
             double y = getY_texto(hand);
-            const char *corb   = getCORB_texto(hand);
-            const char *corp   = getCORP_texto(hand);
-            const char *txto   = getTXTO_texto(hand);
+            const char *corb = getCORB_texto(hand);  
+            const char *corp = getCORP_texto(hand);   
+            const char *txto = getTXTO_texto(hand);   
             const char *family = getFFamily_texto(hand);
             const char *weight = getFWeight_texto(hand);
-            int size           = getFSize_texto(hand);
+            int size = getFSize_texto(hand);
 
             char txt_esc[1024];
             esc_xml(txto, txt_esc, sizeof txt_esc);
 
-            char corb_ok[32], corp_ok[32], family_ok[64], weight_ok[16];
+            char corb_ok[32], corp_ok[32];
+
+            double opacidade = 1.0;
 
             fprintf(fp,
-                "<text style=\"fill:%s;fill-opacity:0.6;stroke:%s;"
+                "<text style=\"fill:%s;fill-opacity:%.1f;stroke:%s;stroke-width:0.7;"
                 "font-family:%s;font-weight:%s;font-size:%dpx;line-height:0%%\" "
                 "x=\"%.2f\" y=\"%.2f\">%s</text>\n",
                 svg_safe_color(corp,   corp_ok,   sizeof corp_ok),
+                opacidade,
                 svg_safe_color(corb,   corb_ok,   sizeof corb_ok),
-                svg_safe_color(family, family_ok, sizeof family_ok),
-                svg_safe_color(weight, weight_ok, sizeof weight_ok),
-                size, x, y, txt_esc);
+                family, weight, size, x, y, txt_esc);
                 
                 break;
         }
@@ -164,46 +174,7 @@ void svg_escrever_forma(FILE *fp, FORMA f){
     }
 }
 
-void svg_escrever_texto(FILE *fp, TEXTO t){
-    if (!fp || !t) return;
 
-    double x = getX_texto(t);
-    double y = getY_texto(t);
-    const char *corb = getCORB_texto(t);  
-    const char *corp = getCORP_texto(t);   
-    const char *txto = getTXTO_texto(t);   
-    const char *family = getFFamily_texto(t);
-    const char *weight = getFWeight_texto(t);
-    int size = getFSize_texto(t);
-
-    char txt_esc[1024];
-    esc_xml(txto, txt_esc, sizeof txt_esc);
-
-    double opacity = 0.6;
-    if (strcmp(txt_esc, "*") == 0 && strcmp(corp, "red") == 0) {
-        opacity = 1.0;
-    }
-
-    fprintf(fp,
-        "<text style=\"fill:%s;fill-opacity:%.1f;stroke:%s;"
-        "font-family:%s;font-weight:%s;font-size:%dpx;line-height:0%%\" "
-        "x=\"%.2f\" y=\"%.2f\">%s</text>\n",
-        corp, opacity, corb, family, weight, size, x, y, txt_esc);
-}
-
-void svg_escrever_linha(FILE *fp, LINHA l){
-    if (!fp || !l) return;
-
-    double x1 = getX1_linha(l);
-    double y1 = getY1_linha(l);
-    double x2 = getX2_linha(l);
-    double y2 = getY2_linha(l);
-    const char *cor = getCOR_linha(l);
-
-    fprintf(fp,
-        "<line style=\"stroke:%s;stroke-width:2.0;stroke-opacity:0.6\" x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" />\n",
-        cor, x1, y1, x2, y2);
-}
 
 void svg_end(FILE *fp){
     if (!fp) return;

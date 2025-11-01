@@ -6,9 +6,9 @@
 #include <stdbool.h>
 #include <assert.h>
 
-#define FFAMILY_PADRAO "sans"
-#define FWEIGHT_PADRAO "n"
-#define FSIZE_PADRAO 12
+#define FFAMILY_PADRAO "sans-serif"
+#define FWEIGHT_PADRAO "normal"
+#define FSIZE_PADRAO 20
 #define CONST_AREA 20.0
 
 typedef struct stEstilo{
@@ -279,7 +279,6 @@ bool setTXTO_texto(TEXTO t, const char *txto){
 
 bool mudar_estilo(TEXTO t, const char *fFamily, const char *fWeight, int fSize){
     if (!t || !fFamily || !fWeight || fSize <= 0) return false;
-    if(strcmp(fWeight, "n") && strcmp(fWeight, "b") && strcmp(fWeight, "b+") && strcmp(fWeight, "l")) return false;
 
     stTexto *texto = (stTexto*)t;
 

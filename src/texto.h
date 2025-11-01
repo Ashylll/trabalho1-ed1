@@ -11,7 +11,7 @@
 
 typedef void* TEXTO;
 
-/// @brief cria um texto com identificador, coordenadas, cores de borda e de preenchimento e estilo padrão 
+/// @brief cria um texto com identificador, coordenadas, cores de borda e de preenchimento e estilo padrão (family: sans-serif | weight: normal | size: 20)
 /// @param i identificador
 /// @param x coordenada x
 /// @param y coordenada y
@@ -129,8 +129,8 @@ bool setTXTO_texto(TEXTO t, const char* txto);
 
 /// @brief muda o estilo de um texto
 /// @param t texto t
-/// @param fFamily família do estilo (sans, serif, cursive)
-/// @param fWeight peso do estilo (n: normal, b: bold, b+: bolder, l: lighter)
+/// @param fFamily família do estilo (sans-serif, serif, cursive)
+/// @param fWeight expessura do estilo (n: normal, b: bold, b+: bolder, l: lighter)
 /// @param fSize tamanho do estilo
 /// @return true se a operação foi bem sucedida; false se t == NULL || fFamily == NULL || fWeight == NULL || fSize <= 0
 bool mudar_estilo(TEXTO t, const char* fFamily, const char* fWeight, int fSize);
