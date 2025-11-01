@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-typedef void* CIRCULO;
-
 /*
     circulo.h
     Módulo responsável pela criação e gerenciamento de círculos
@@ -14,6 +12,8 @@ typedef void* CIRCULO;
    - x cresce para a direita; y cresce para baixo;
 
 */
+
+typedef void* CIRCULO;
 
 /// @brief cria um círculo com identificador, cor de borda e de preenchimento e coordenadas
 /// @param i identificador numérico do círculo
@@ -31,11 +31,11 @@ CIRCULO criar_circulo(int i, double x, double y, double r, const char* corb, con
 /// @return área
 double area_circulo(CIRCULO c);
 
-/// @brief libera a memória do círculo e zera o handle
+/// @brief libera o círculo
 /// @param c ponteiro para o handle do círculo
 void destruir_circulo(CIRCULO *c);
 
-/* Funções get */
+/* === Operações get === */
 
 /// @brief retorna o identificador do círculo
 /// @param c círculo
@@ -73,7 +73,10 @@ const char* getCORB_circulo(CIRCULO c);
 /// @return ponteiro para string com a cor de preenchimento (apenas leitura)
 const char* getCORP_circulo(CIRCULO c);
 
-/* Funções set */
+/* ===================== */
+
+
+/* === Operações set === */
 
 /// @brief atribui um identificador ao círculo
 /// @param c círculo
@@ -110,5 +113,7 @@ bool setCORB_circulo(CIRCULO c, const char* corb);
 /// @param corp cor de preenchimento
 /// @return true se a operação foi bem sucedida; false se c == NULL || corp == NULL
 bool setCORP_circulo(CIRCULO c, const char* corp);
+
+/* ===================== */
 
 #endif

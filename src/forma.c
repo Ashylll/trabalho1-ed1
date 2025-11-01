@@ -155,8 +155,6 @@ bool deslocar_forma(FORMA f, double dx, double dy){
     return setXY_forma(f, x + dx, y + dy);
 }
 
-// Funções auxiliares
-
 double dist_ponto_segmento(double px, double py, double x1, double y1, double x2, double y2){
     // Define a equação geral da reta (Ax + By + C = 0) a partir dos pontos (x1,y1) e (x2,y2)
     // vetor direcional da reta -> (A,B) = (x2 - x1, y2 - y1)
@@ -368,7 +366,6 @@ static bool sob_rl(FORMA a, FORMA b){
 
     if (ponto_no_retangulo(x1, y1, xR, yR, wR, hR) || ponto_no_retangulo(x2, y2, xR, yR, wR, hR)) return true;
 
-    // Vértices do retângulo
     double ax = xR,      ay = yR;
     double bx = xR + wR, by = yR;
     double cx = xR + wR, cy = yR + hR;
@@ -416,7 +413,6 @@ static bool sob_rt(FORMA a, FORMA b){
 
     if (ponto_no_retangulo(x1, y1, xR, yR, wR, hR) || ponto_no_retangulo(x2, y2, xR, yR, wR, hR)) return true;
 
-    // Vértices do retângulo
     double ax = xR,      ay = yR;
     double bx = xR + wR, by = yR;
     double cx = xR + wR, cy = yR + hR;
@@ -710,7 +706,6 @@ static bool comp_hex(const char *src, char out[8]){
     if (!hex || hex[0] != '#' || strlen(hex) != 7) return false;
 
     int r, g, b;
-    /// Lê o hexadecimal e converte para inteiro
     if (sscanf(hex, "#%02x%02x%02x", &r, &g, &b) != 3) return false;
 
     r = 255 - r;

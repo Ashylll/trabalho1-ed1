@@ -87,7 +87,6 @@ void percorrer_chao(CHAO c, FILE *fp){
     stChao *chao = (stChao*)c;
     void *aux;
 
-    // copiar a fila pra não destruir o chão
     FILA temp = copiar_fila(chao->formas);
     while (rmv_fila(temp, &aux)){
         FORMA f = (FORMA)aux;

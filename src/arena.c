@@ -1,5 +1,7 @@
 #include "arena.h"
+
 #include <stdlib.h>
+#include <stdbool.h>
 
 typedef struct stArena {
     FILA formas;

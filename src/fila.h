@@ -3,23 +3,22 @@
 
 #include <stdbool.h>
 
-typedef void *FILA;
-
 /*
     fila.h
     Módulo responsável pela implementação de uma fila para uso genérico mais funções com operações básicas
+    
 */
 
+typedef void *FILA;
 
 /// @brief cria uma fila vazia 
-/// @return retorna a fila vazia 
+/// @return ponteiro para a fila vazia 
 FILA criar_fila(void);
 
 /// @brief verifica se uma fila f está vazia
 /// @param f fila 
 /// @return true se vazia; false se não
 bool empty_fila(FILA f);
-
 
 /// @brief adiciona um item ao fim da fila
 /// @param f fila 
@@ -48,8 +47,9 @@ int tamanho_fila(FILA f);
 /// @param f fila 
 void destruir_fila(FILA *f); 
 
-// Clona a fila, preservando a ordem dos elementos.
-// A nova fila contém os mesmos ponteiros; não duplica os itens.
+/// @brief Clona a fila, preservando a ordem dos elementos. A nova fila contém os mesmos ponteiros; não duplica os itens
+/// @param f fila
+/// @return cópia da fila
 FILA copiar_fila(FILA f);
 
 #endif

@@ -210,16 +210,17 @@ CARREGADOR repo_take_carregador(REPO r, int id){
 }
 
 CARREGADOR repo_assegurar_carregador(REPO r, int id){
+    if (!r) return NULL;
+
     CARREGADOR c = repo_get_carregador(r, id);
-    if (!c) return NULL;
+    if (c) return c;                            
 
     c = criar_carregador(id);
     if (!c) return NULL;
 
-    if(!repo_add_carregador(r, id, c)){
+    if (!repo_add_carregador(r, id, c)){
         destruir_carregador(&c);
         return NULL;
     }
-
     return c;
 }

@@ -3,8 +3,6 @@
 
 #include <stdbool.h>
 
-typedef void* RETANGULO;
-
 /*
     retangulo.h
     Módulo responsável pela criação e gerenciamento de retângulos
@@ -15,6 +13,8 @@ typedef void* RETANGULO;
    - Âncora do retângulo = canto superior esquerdo.
 
 */
+
+typedef void* RETANGULO;
 
 /// @brief cria um retângulo com identificador, cor de borda e de preenchimento e coordenadas âncora
 /// @param i identificador numérico do retângulo
@@ -33,11 +33,11 @@ RETANGULO criar_retangulo(int i, double x, double y, double w, double h, const c
 /// @return área
 double area_retangulo(RETANGULO r);
 
-/// @brief libera a memória do retângulo e zera o handle
+/// @brief libera o retângulo
 /// @param r ponteiro para handle do retângulo
 void destruir_retangulo(RETANGULO *r);
 
-/* Funções get */
+/* === Operações get === */
 
 /// @brief retorna o identificador do retângulo
 /// @param r retângulo
@@ -81,7 +81,10 @@ const char* getCORB_retangulo(RETANGULO r);
 /// @return ponteiro para string com a cor de preenchimento (apenas leitura)
 const char* getCORP_retangulo(RETANGULO r);
 
-/* Funções set */
+/* ===================== */
+
+
+/* === Operações set === */
 
 /// @brief atribui um identificador ao retângulo
 /// @param r retângulo
@@ -124,5 +127,7 @@ bool setCORB_retangulo(RETANGULO r, const char* corb);
 /// @param corp cor de preenchimento
 /// @return true se a operação foi bem sucedida; false se r == NULL || corp == NULL
 bool setCORP_retangulo(RETANGULO r, const char* corp);
+
+/* ===================== */
 
 #endif

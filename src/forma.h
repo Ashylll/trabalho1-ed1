@@ -42,6 +42,8 @@ void destruir_forma(FORMA *f);
 /// @return área
 double area_forma(FORMA f);
 
+/* === Operações get === */
+
 /// @brief retorna o identificador da forma
 /// @param f forma
 /// @pre f != NULL
@@ -58,6 +60,11 @@ char getTipo_forma(FORMA f);
 /// @param f forma
 /// @return handle
 void* getHandle_forma(FORMA f);
+
+/* ===================== */
+
+
+/* === Operações set === */
 
 /// @brief lê as coordenadas (x,y) da forma
 /// @param f forma
@@ -80,6 +87,11 @@ bool setXY_forma(FORMA f, double x, double y);
 /// @return true se a operação foi bem sucedida; false se f == NULL
 bool deslocar_forma(FORMA f, double dx, double dy);
 
+/* ===================== */
+
+
+/* === Operações relacionadas à sobreposição === */
+
 /// @brief verifica se há sobreposição entre duas formas
 /// @details Faz uso de funções auxiliares para analisar cada combinação de tipos e trata a simetria de entrada
 /// @param a forma 1
@@ -99,15 +111,20 @@ FORMA clonar_forma(FORMA f);
 /// @pre i != NULL && j != NULL
 void trocar_cores(FORMA i, FORMA j);
 
-// Inverte as cores da forma. Preenchimento -> borda, borda -> preenchimento; caso linha: cor -> cor complementar
+/// @brief Inverte as cores de preenchimento e de borda da forma. Preenchimento -> borda, borda -> preenchimento; caso linha: cor -> cor complementar
+/// @param f forma
 void inverter_cores(FORMA f);
 
+/// @brief converte uma cor (string) em hexadecimal para nome
+/// @param hex cor como hexadecimal
+/// @return cor como nome
 const char* hex_para_nome(const char *hex);
 
+/// @brief converte uma cor (string) em nome para hexadecimal
+/// @param cor como nome
+/// @return cor como hexadecimal
 const char* nome_para_hex(const char *cor);
 
-
-
-
+/* ============================================= */
 
 #endif

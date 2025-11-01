@@ -25,18 +25,18 @@ void destruir_chao(CHAO *c);
 /// @brief adiciona uma forma ao chão
 /// @param c chão
 /// @param f forma
-/// @return true se a operação foi bem sucedida, false se houve erro
+/// @return true se a operação foi bem sucedida; false se houve erro
 bool add_chao(CHAO c, FORMA f);
 
 /// @brief remove uma forma do chão
 /// @param c chão
 /// @param out handle para a forma a ser retirada
-/// @return true se a operação foi bem sucedida, false se houve erro
+/// @return true se a operação foi bem sucedida; false se houve erro
 bool rmv_chao(CHAO c, FORMA *out);
 
 /// @brief checa se não há formas no chão
 /// @param c chão
-/// @return true se estiver vazio, false se não
+/// @return true se estiver vazio; false se não
 bool empty_chao(CHAO c);
 
 /// @brief checa quantas formas estão no chão
@@ -48,8 +48,5 @@ int size_chao(CHAO c);
 /// @param c chão
 /// @param fp arquivo SVG aberto em modo escrita 
 void percorrer_chao(CHAO c, FILE *fp);
-
-
-
 
 #endif

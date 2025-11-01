@@ -9,7 +9,7 @@
 
 /*
     leitura.h
-    Módulo responsável pela leitura dos arquivos de entrada .geo e . qry
+    Módulo responsável pela leitura dos arquivos de entrada .geo e .qry
 
 */
 
@@ -26,7 +26,5 @@ bool ler_geo(const char *path_geo, CHAO chao);
 /// @param saida estrutura de saída para registrar formas criadas
 /// @return true se o arquivo foi lido com sucess; false se falhou ao abrir ou a ler
 bool ler_qry(const char *path_qry, REPO repo, CHAO chao, SAIDA saida);
-
-
 
 #endif

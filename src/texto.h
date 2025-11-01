@@ -3,15 +3,13 @@
 
 #include <stdbool.h>
 
-typedef void* TEXTO;
-
 /*
     texto.h
     Módulo responsável pela criação e gerenciamento de textos
 
 */
 
-
+typedef void* TEXTO;
 
 /// @brief cria um texto com identificador, coordenadas, cores de borda e de preenchimento e estilo padrão 
 /// @param i identificador
@@ -34,7 +32,7 @@ double area_texto(TEXTO t);
 /// @param t ponteiro para o handle do texto
 void destruir_texto(TEXTO *t);
 
-/* Funções get */ 
+/* === Operações get === */ 
 
 /// @brief retorna o identificador do texto
 /// @param t texto
@@ -78,69 +76,80 @@ char getA_texto(TEXTO t);
 /// @return ponteiro para string com txto (apenas leitura)
 const char* getTXTO_texto(TEXTO t);
 
-// Funções set 
+/* ===================== */
+
+/* === Operações set === */
 
 /// @brief atribui um identificador ao texto
 /// @param t texto
 /// @param i identificador
-/// @return true se a operação foi bem sucedida, false se t == NULL
+/// @return true se a operação foi bem sucedida; false se t == NULL
 bool setI_texto(TEXTO t, int i);
 
 /// @brief atribui uma coordenada x ao texto
 /// @param t texto
 /// @param x coordenada x
-/// @return true se a operação foi bem sucedida, false se t == NULL
+/// @return true se a operação foi bem sucedida; false se t == NULL
 bool setX_texto(TEXTO t, double x);
 
 /// @brief atribui uma coordenada y ao texto
 /// @param t texto
 /// @param y coordenada y
-/// @return true se a operação foi bem sucedida, false se t == NULL
+/// @return true se a operação foi bem sucedida; false se t == NULL
 bool setY_texto(TEXTO t, double y);
 
 /// @brief atribui uma cor de borda ao texto
 /// @param t texto
 /// @param corb cor de borda
-/// @return true se a operação foi bem sucedida, false se t == NULL || corb == NULL
+/// @return true se a operação foi bem sucedida; false se t == NULL || corb == NULL
 bool setCORB_texto(TEXTO t, const char* corb);
 
 /// @brief atribui uma cor de preenchimento ao texto
 /// @param t texto
 /// @param corp cor de preenchimento
-/// @return true se a operação foi bem sucedida, false se t == NULL || corp == NULL
+/// @return true se a operação foi bem sucedida; false se t == NULL || corp == NULL
 bool setCORP_texto(TEXTO t, const char* corp);
 
 /// @brief atribui uma posição à âncora do texto
 /// @param t texto
 /// @param a âncora do texto
-/// @return true se a operação foi bem sucedida, false se t == NULL || a inválido
+/// @return true se a operação foi bem sucedida; false se t == NULL || a inválido
 bool setA_texto(TEXTO t, char a);
 
 /// @brief atribui um conteúdo ao texto
 /// @param t texto
 /// @param txto conteúdo do texto (string)
-/// @return true se a operação foi bem sucedida, false se t == NULL || txto == NULL
+/// @return true se a operação foi bem sucedida; false se t == NULL || txto == NULL
 bool setTXTO_texto(TEXTO t, const char* txto);
 
+/* ===================== */
 
-// Função estilo
+
+/* === Operações relacionadas ao estilo do texto === */
 
 /// @brief muda o estilo de um texto
 /// @param t texto t
 /// @param fFamily família do estilo (sans, serif, cursive)
 /// @param fWeight peso do estilo (n: normal, b: bold, b+: bolder, l: lighter)
 /// @param fSize tamanho do estilo
-/// @return true se a operação foi bem sucedida, false se t == NULL || fFamily == NULL || fWeight inválido
+/// @return true se a operação foi bem sucedida; false se t == NULL || fFamily == NULL || fWeight == NULL || fSize <= 0
 bool mudar_estilo(TEXTO t, const char* fFamily, const char* fWeight, int fSize);
 
-/// @brief obtém a font-family atual do texto
-/// @return ponteiro constante para a string interna (não modifique)
+/// @brief obtém a font-family atual
+/// @param t texto
+/// @return família da fonte do texto
 const char* getFFamily_texto(TEXTO t);
 
-/// @brief obtém o font-weight atual ('n'|'b'|'l'|etc.)
+/// @brief obtém o font-weight atual
+/// @param t texto
+/// @return expessura da fonte do texto
 const char* getFWeight_texto(TEXTO t);
 
 /// @brief obtém o font-size atual (px)
+/// @param t texto
+/// @return tamanho da fonte do texto
 int getFSize_texto(TEXTO t);
+
+/* ================================================= */
 
 #endif

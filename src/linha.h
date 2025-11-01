@@ -3,15 +3,13 @@
 
 #include <stdbool.h>
 
-typedef void* LINHA;
-
 /*
     linha.h
-    Módulo responsável pela criação de linhas
-    Inclui funções com operações get e set
+    Módulo responsável pela criação e gerenciamento de linhas
 
 */
 
+typedef void* LINHA;
 
 /// @brief cria uma linha com identificador e cor
 /// @param i identificador 'i'
@@ -39,7 +37,7 @@ double area_linha(LINHA l);
 /// @param l ponteiro para o handle da linha
 void destruir_linha(LINHA *l);
 
-/* Funções get */
+/* === Operações get === */
 
 /// @brief retorna o identificador da linha
 /// @param l linha
@@ -77,42 +75,47 @@ double getY2_linha(LINHA l);
 /// @return ponteiro para string com a cor da linha (apenas leitura)
 const char* getCOR_linha(LINHA l);
 
-/* Funções set */
+/* ===================== */
+
+
+/* === Operações set === */
 
 /// @brief atribui um identificador à linha
 /// @param l linha
 /// @param i identificador
-/// @return true se a operação foi bem sucedida, false se não
+/// @return true se a operação foi bem sucedida; false se não
 bool setI_linha(LINHA l, int i);
 
 /// @brief atribui uma coordenada x1 à linha
 /// @param l linha 
 /// @param x1 coordenada x1
-/// @return true se a operação foi bem sucedida, false se não
+/// @return true se a operação foi bem sucedida; false se não
 bool setX1_linha(LINHA l, double x1);
 
 /// @brief atribui ua coordenada y1 à linha
 /// @param l linha   
 /// @param y1 coordenada y1 
-/// @return true se a operação foi bem sucedida, false se não 
+/// @return true se a operação foi bem sucedida; false se não 
 bool setY1_linha(LINHA l, double y1);
 
 /// @brief atribui uma coordenada x2 à linha
 /// @param l linha
 /// @param x2 coordenada x2
-/// @return true se a operação foi bem sucedida, false se não
+/// @return true se a operação foi bem sucedida; false se não
 bool setX2_linha(LINHA l, double x2);
 
 /// @brief atribui uma coordenada y2 à linha
 /// @param l linha
 /// @param y2 coordenada y2 
-/// @return true se a operação foi bem sucedida, false se não
+/// @return true se a operação foi bem sucedida; false se não
 bool setY2_linha(LINHA l, double y2);
 
 /// @brief atribui uma cor à linha
 /// @param l linha
 /// @param cor cor
-/// @return true se a operação foi bem sucedida, false se não
+/// @return true se a operação foi bem sucedida; false se não
 bool setCOR_linha(LINHA l, const char* cor);
+
+/* ===================== */
 
 #endif

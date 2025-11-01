@@ -1,4 +1,5 @@
 #include "texto.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -129,8 +130,6 @@ void destruir_texto(TEXTO *t){
     *t = NULL;
 }
 
-// Funções get
-
 int getI_texto(TEXTO t){
     assert (t != NULL);
     stTexto *texto = (stTexto*)t;
@@ -189,8 +188,6 @@ const char* getTXTO_texto(TEXTO t){
 
     return texto->txto;
 }
-
-// Funções set
 
 bool setI_texto(TEXTO t, int i){
     if (!t) return false;
@@ -279,8 +276,6 @@ bool setTXTO_texto(TEXTO t, const char *txto){
 
     return true;
 }
-
-// Função estilo
 
 bool mudar_estilo(TEXTO t, const char *fFamily, const char *fWeight, int fSize){
     if (!t || !fFamily || !fWeight || fSize <= 0) return false;

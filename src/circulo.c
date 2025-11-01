@@ -1,4 +1,5 @@
 #include "circulo.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -69,8 +70,6 @@ void destruir_circulo(CIRCULO *c){
     *c = NULL;
 }
 
-// Funções get
-
 int getI_circulo(CIRCULO c){
     assert(c != NULL);
     stCirculo *circulo = (stCirculo*)c;
@@ -112,8 +111,6 @@ const char* getCORP_circulo(CIRCULO c){
 
     return circulo->corp;
 }
-
-// Funções set
 
 bool setI_circulo(CIRCULO c, int i){
     if (!c) return false;

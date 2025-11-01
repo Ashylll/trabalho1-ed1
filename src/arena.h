@@ -4,6 +4,8 @@
 #include "fila.h"
 #include "forma.h"
 
+#include <stdbool.h>
+
 /*
     arena.h
     Módulo responsável pela criação e pelo gerenciamento da arena
@@ -23,7 +25,7 @@ void destruir_arena(ARENA *a);
 /// @brief adiciona uma forma à arena
 /// @param a arena
 /// @param f forma
-/// @return true se a operação foi bem sucedida, false se houve erro
+/// @return true se a operação foi bem sucedida; false se houve erro
 bool add_arena(ARENA a, FORMA f);
 
 /// @brief remove uma forma da arena em ordem de disparo
@@ -33,7 +35,7 @@ FORMA rmv_arena(ARENA a);
 
 /// @brief checa se não há formas na arena
 /// @param a arena
-/// @return true se estiver vazio, false se não
+/// @return true se estiver vazia; false se não
 bool empty_arena(ARENA a);
 
 #endif

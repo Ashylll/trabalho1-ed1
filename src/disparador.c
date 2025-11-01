@@ -109,65 +109,64 @@ bool disparo(DISPARADOR d, double dx, double dy, char modo, SAIDA saida, ARENA a
     if(!disparador->emDisparo) return false;
 
     FORMA f = disparador->emDisparo;
-    
-    double x,y;
-    x = disparador->x; y = disparador->y;
-    
+
+    double x = disparador->x;
+    double y = disparador->y;
+
+    double xi = 0.0, yi = 0.0;
+    getXY_forma(f, &xi, &yi);
+
     setXY_forma(f, x, y);
-    
+
     if(!deslocar_forma(f, dx, dy)) return false;
 
+    if (saida){
+        double xf = x + dx;
+        double yf = y + dy;
+        info_forma_txt(saida, f);
+        info_posicoes_txt(saida, xi, yi, xf, yf);
+        pula_linha(saida);
+        registrar_disparo(saida);
+    }
     if(modo == 'v' && saida){
         int id = gerar_id_trajeto(saida);
-
         LINHA trajeto = criar_linha(id, x, y, x + dx, y + dy, "violet");
 
         if(trajeto){
             FORMA ftrajeto = criar_forma('l', trajeto);
             add_forma_saida(saida, ftrajeto);
-
         }
-
-        add_arena(arena, f);
-        disparador->emDisparo = NULL;
-
     }
+
+    add_arena(arena, f);
+    disparador->emDisparo = NULL;
 
     return true;
 }
 
-bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy, ARENA arena){
-    if (!d || (lado != 'e' && lado != 'd')) return false;
-    stDisparador *disparador = (stDisparador*)d;
-    
-    if (lado == 'e'){
-        while(!empty_carregador(disparador->cdir) || disparador->emDisparo){
-            if(!disparador->emDisparo){
+bool rajada(DISPARADOR d, char lado, double dx, double dy, double ix, double iy, SAIDA saida, ARENA arena) {
 
-                if (!shift_disparador(disparador, 'e', 1)) return false;
-                if (!disparador->emDisparo) break;
-            }
+    if (!d || !arena || (lado != 'e' && lado != 'd')) return false;
+    stDisparador *disp = (stDisparador*)d;
 
-            if (!disparo(disparador, dx, dy, 'i', NULL, arena)) return false;
+    for (;;) {
+        CARREGADOR origem = (lado == 'e') ? disp->cdir : disp->cesq;
+        bool origem_vazia = (origem == NULL) || empty_carregador(origem);
 
-            dx += ix;
-            dy += iy;
+        if (origem_vazia && !disp->emDisparo) break;
+
+        if (!disp->emDisparo) {
+            if (!shift_disparador(d, lado, 1)) return false;
+            if (!disp->emDisparo) break;
         }
-        return empty_carregador(disparador->cdir) && (disparador->emDisparo == NULL);
-    } 
-    else {
-         while(!empty_carregador(disparador->cesq) || disparador->emDisparo){
-            if(!disparador->emDisparo){
-                if (!shift_disparador(disparador, 'd', 1)) return false;
-                if (!disparador->emDisparo) break;
-            }
-            if (!disparo(disparador, dx, dy, 'i', NULL, arena)) return false;
 
-            dx += ix;
-            dy += iy;
-        }
-        return empty_carregador(disparador->cesq) && (disparador->emDisparo == NULL);
+        if (!disparo(d, dx, dy, 'i', saida, arena)) return false;
+
+        dx += ix;
+        dy += iy;
     }
+
+    return true;
 }
 
 void destruir_disparador(DISPARADOR *d){

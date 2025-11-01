@@ -3,6 +3,7 @@
 #include "saida.h"
 
 #include <stdio.h>
+#include <stdbool.h>
 
 static const char* tipo_nome(char n){
     switch (n){

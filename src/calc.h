@@ -4,6 +4,7 @@
 #include "chao.h"
 #include "arena.h"
 #include "saida.h"
+
 #include <stdbool.h>
 
 /*
@@ -12,7 +13,7 @@
     
 */
 
-/// @brief Processa as formas lançadas na areana, aplicando as regras do projeto
+/// @brief Processa as formas lançadas na areana, aplicando as regras do projeto, e gera o log do comando 'calc'
 /// @param chao chão a ser atualizado (formas que voltam após o cálculo)
 /// @param arena fila de formas lançadas (consumida pelo cálculo)
 /// @param saida saída para registrar textos/trajetos conforme necessário

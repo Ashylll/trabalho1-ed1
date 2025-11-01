@@ -74,8 +74,6 @@ void destruir_retangulo(RETANGULO *r){
     *r = NULL;
 }
 
-// Funções get
-
 int getI_retangulo(RETANGULO r){
     assert(r != NULL);
     stRetangulo *retangulo = (stRetangulo*)r;
@@ -124,8 +122,6 @@ const char* getCORP_retangulo(RETANGULO r){
 
     return retangulo->corp;
 }
-
-// Funções set
 
 bool setI_retangulo(RETANGULO r, int i){
     if (!r) return false;
