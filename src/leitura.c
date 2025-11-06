@@ -18,6 +18,25 @@
 
 /* Comandos .geo */
 
+static const char* converter_weight(const char *weight){
+    if (!weight) return "normal";
+    if (strcmp(weight, "b+") == 0) return "bolder";
+    if (strcmp(weight, "b")  == 0) return "bold";
+    if (strcmp(weight, "n")  == 0) return "normal";
+    if (strcmp(weight, "l")  == 0) return "lighter";
+    
+    return weight;
+}
+
+static const char* converter_family(const char *family){
+    if (!family) return "sans-serif";
+    if (strcmp(family, "sans")     == 0) return "sans-serif";
+    if (strcmp(family, "serif")    == 0) return "serif";
+    if (strcmp(family, "cursive")  == 0) return "cursive";
+   
+    return family;
+}
+
 static bool comando_c(const char *linha, CHAO chao){
     int i; 
     double x, y, r;
@@ -100,10 +119,13 @@ static bool comando_ts(const char *linha, char *fFamily, char *fWeight, int *fSi
 
     if (sscanf(linha, "%*s %31s %7s %d", novo_family, novo_weight, &novo_size) != 3) return false;
 
-    strncpy(fFamily, novo_family, 31);
+    const char *fam = converter_family(novo_family);
+    const char *wt  = converter_weight(novo_weight);
+
+    strncpy(fFamily, fam, 31);
     fFamily[31] = '\0';
 
-    strncpy(fWeight, novo_weight, 7);
+    strncpy(fWeight, wt, 7);
     fWeight[7] = '\0';
 
     *fSize = novo_size;
